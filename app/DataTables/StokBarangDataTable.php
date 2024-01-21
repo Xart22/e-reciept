@@ -50,7 +50,7 @@ class StokBarangDataTable extends DataTable
                 Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
-                Button::make('print', ['className' => 'btn btn-primary btn-sm']),
+                Button::make('print',),
             ]);
     }
 
