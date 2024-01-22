@@ -8,38 +8,73 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        <form class="row g-3 needs-validation" novalidate>
+                        <form class="row g-3" action="{{ route('stok-barang.store') }}" method="post">
+                            @csrf
                             <div class="col-md-6">
-                                <label for="kodeBarangValidation" class="form-label">Kode Barang</label>
-                                <input type="text" class="form-control" id="kodeBarangValidation" required>
+                                <label for="kodeBarang" class="form-label">Kode Barang</label>
+                                <input type="text" class="form-control" id="kodeBarang" required
+                                    style="text-transform:uppercase" name="kode_barang"
+                                    value="{{ old('kode_barang') }}">
+                                @if ($errors->has('kode_barang'))
+                                <script>
+                                    const kodeBarang = document.getElementById('kodeBarang');
+                                    kodeBarang.classList.add('is-invalid');
+
+                                </script>
                                 <div class="invalid-feedback">
-                                    Looks good!
+                                    {{ $errors->first('kode_barang') }}
                                 </div>
+                                @endif
                             </div>
                             <div class="col-md-6">
-                                <label for="namaBarangValidation" class="form-label">Nama Barang</label>
-                                <input type="text" class="form-control" id="namaBarangValidation" required>
+                                <label for="namaBarang" class="form-label">Nama Barang</label>
+                                <input type="text" class="form-control" id="namaBarang" required name="nama_barang"
+                                    value="{{ old('nama_barang') }}">
+                                @if ($errors->has('kode_barang'))
+                                <script>
+                                    const kodeBarang = document.getElementById('namaBarang');
+                                        kodeBarang.classList.add('is-invalid');
+    
+                                </script>
                                 <div class="invalid-feedback">
-                                    Looks good!
+                                    {{ $errors->first('namaBarang') }}
                                 </div>
+                                @endif
                             </div>
                             <div class="col-md-6">
-                                <label for="stokValidation" class="form-label">Stok</label>
-                                <input type="number" class="form-control" id="stokValidation" required>
+                                <label for="stokBarang" class="form-label">Stok</label>
+                                <input type="number" class="form-control" id="stokBarang" required name="stok_barang"
+                                    value="{{old('stok_barang')}}">
+                                @if ($errors->has('stok_barang'))
+                                <script>
+                                    const kodeBarang = document.getElementById('stok_barang');
+                                            kodeBarang.classList.add('is-invalid');
+        
+                                </script>
                                 <div class="invalid-feedback">
-                                    Please provide a valid city.
+                                    {{ $errors->first('stok_barang') }}
                                 </div>
+                                @endif
                             </div>
                             <div class="col-md-6">
-                                <label for="satuanValidation" class="form-label">Satuan</label>
-                                <input type="text" class="form-control" id="satuanValidation" required>
+                                <label for="satuanBarang" class="form-label">Satuan</label>
+                                <input type="text" class="form-control" id="satuanBarang" required name="satuan_barang"
+                                    style="text-transform:uppercase" value="{{old('satuan_barang')}}">
+                                @if ($errors->has('satuan_barang'))
+                                <script>
+                                    const kodeBarang = document.getElementById('satuan_barang');
+                                                kodeBarang.classList.add('is-invalid');
+            
+                                </script>
                                 <div class="invalid-feedback">
-                                    Please provide a valid zip.
+                                    {{ $errors->first('satuan_barang') }}
                                 </div>
+                                @endif
                             </div>
                             <div class="col-12">
-                                <label for="hargaValidation" class="form-label">Harga</label>
-                                <input type="text" class="form-control" id="hargaValidation" required>
+                                <label for="hargaBarang" class="form-label">Harga</label>
+                                <input type="text" class="form-control" id="hargaBarang" required name="harga_barang"
+                                    value="{{old('harga_barang')}}">
                                 <div class="invalid-feedback">
                                     Please provide a valid zip.
                                 </div>
@@ -63,5 +98,18 @@
 @push("scripts")
 
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+<script>
+    $(document).ready(function () {
+        $('#kodeBarang').keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+        $('#namaBarang').keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+        $('#satuan_barang').keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+    });
+</script>
 
 @endpush

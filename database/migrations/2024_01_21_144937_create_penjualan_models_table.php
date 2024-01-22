@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('no_faktur')->unique();
             $table->date('tanggal');
             $table->string('nama_pelanggan');
+            $table->string('nama_perusahaan')->nullable();
             $table->string('alamat_pelanggan');
             $table->string('telepon_pelanggan');
             $table->string('item');

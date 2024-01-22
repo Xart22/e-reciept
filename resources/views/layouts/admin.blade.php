@@ -45,7 +45,7 @@
           </svg> Dashboard</a>
       </li>
       <li class="nav-title">Faktur</li>
-      <li class="nav-item"><a class="nav-link" href="colors.html">
+      <li class="nav-item"><a class="nav-link" href="{{route('tanda-terima.create')}}">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Buat Tanda Terima</a></li>
