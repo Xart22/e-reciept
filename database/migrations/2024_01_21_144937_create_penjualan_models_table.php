@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('no_faktur')->unique();
             $table->date('tanggal');
+            $table->time('waktu');
             $table->string('nama_pelanggan');
             $table->string('nama_perusahaan')->nullable();
             $table->string('alamat_pelanggan');
             $table->string('telepon_pelanggan');
+            $table->string('telepon_seluler');
+            $table->string('email_pelanggan')->nullable();
             $table->string('item');
             $table->longText('kelengkapan');
             $table->longText('keluhan');

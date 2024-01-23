@@ -14,6 +14,12 @@
             border: 1px solid black;
             font-weight: 800;
         }
+
+        @media print {
+            body {
+                zoom: 80%;
+            }
+        }
     </style>
 </head>
 
@@ -30,7 +36,7 @@
         <table>
             <tr>
                 <td class="py-1 px-2" colspan="2">Tanggal : <br>22/11/202 3</td>
-                <td class=" py-1 px-2" rowspan="1" style="width: 50%">Waktu : <br>19:20</td>
+                <td class=" py-1 px-2" rowspan="1">Waktu : <br>19:20</td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI KONSUMEN</td>
@@ -41,8 +47,11 @@
             </tr>
             <tr>
                 <td class="py-1 px-2">Telpon : <br>082218902325</td>
-                <td class="py-1 px-2">Telpon : <br>082218902325</td>
-                <td class="py-1 px-2">Alamat: <br>082218902325</td>
+                <td class="py-1 px-2">Telpon Seluler : <br>082218902325</td>
+                <td class="py-1 px-2" rowspan="2">Alamat: <br>082218902325</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="py-1 px-2">Email: <br> asdasd@sadas.com</td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI BARANG</td>
@@ -52,7 +61,7 @@
                     <p>Spesifikasi : <br>Laptop Acer Nitro 5 515</p>
                     <p>Kelengkapan : <br>Tas,Laptop,Charger</p>
                 </td>
-                <td class="px-2 text-start" rowspan="1" style="height: 200px">Keluhan : <br>Lorem Ipsum is
+                <td class="px-2 text-start text-wrap" rowspan="1">Keluhan : <br>Lorem Ipsum is
                     simply dummy
                     text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
                     text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
@@ -67,19 +76,43 @@
             </tr>
             <tr>
                 <td class="py-1 px-2" colspan="2">
-                    1. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    2. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    3. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    4. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    5. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    6. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                    7. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                    <div class="text-wrap" style="width: 50vw">
+                        1. Saya telah membaca dan menyetujui aturan dan syarat yang
+                        berlaku di Prima Tech <br>
+                        2. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        3. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        4. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        5. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        6. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        7. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        <br><br>
+                        <p class="text-center">DITERIMA OLEH</p>
+                        <br><br><br><br> <br>
+                        <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>sadsadsa</span> &nbsp;&nbsp;&nbsp;)
+                    </div>
                 </td>
-                <td class="py-1 px-2" rowspan="1">Saya
-                    ajuwhduiawnjeaibngyuhigfrieujhbgniwyergftkbnhiujgq;bfdaujgsvfiuadsbfgghjkervfqgtyeuvfdlqyhvfgeqwufvewf
+                <td class="py-1 px-2">
+                    <div class="text-wrap">
+                        1. Saya telah membaca dan menyetujui aturan dan syarat yang
+                        berlaku di Prima Tech <br>
+                        2. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        3. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        4. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        5. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        6. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        7. sadsadasdsadetgaraewraeraeresgrghrd<br>
+                        <br><br>
+                        <p class="text-center">TANDA TANGAN KONSUMEN</p>
+                        <br><br><br><br> <br>
+                        <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>sadsadsa</span> &nbsp;&nbsp;&nbsp;)
+                        </p>
+                    </div>
                 </td>
             </tr>
         </table>
+
+
+
     </div>
 
 
