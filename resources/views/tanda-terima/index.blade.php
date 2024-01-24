@@ -1,6 +1,5 @@
 @extends('layouts.admin') @section('content')
 <div class="container-lg px-4">
-
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
@@ -16,15 +15,10 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @push("scripts")
 
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-<script>
-    const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl))
-</script>
 
 @endpush

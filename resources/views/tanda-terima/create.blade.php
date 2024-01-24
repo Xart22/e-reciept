@@ -10,8 +10,7 @@
                 <div class=" row">
                     <label for="noFaktur" class="col-sm-2 col-form-label">No. Faktur</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="noFaktur" value="5451213"
-                            name="no_faktur">
+                        <input type="text" readonly class="form-control-plaintext" id="noFaktur" value="{{ $no_faktur }}" name="no_faktur">
                     </div>
                 </div>
 
@@ -32,14 +31,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="namaKonsumen" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="namaKonsumen" required autocomplete="off"
-                            name="nama_pelanggan">
+                        <input type="text" class="form-control" id="namaKonsumen" required autocomplete="off" name="nama_pelanggan">
 
                     </div>
                     <div class="col-md-6">
                         <label for="namaPerusahaan" class="form-label">Nama Perusahaan</label>
-                        <input type="text" class="form-control" id="namaPerusahaan" required autocomplete="off"
-                            name="nama_perusahaan">
+                        <input type="text" class="form-control" id="namaPerusahaan" required autocomplete="off" name="nama_perusahaan">
 
                     </div>
                 </div>
@@ -47,14 +44,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="telponKonsumen" class="form-label">Telpon</label>
-                        <input type="text" class="form-control" id="telponKonsumen" required autocomplete="off"
-                            name="telepon_pelanggan">
+                        <input type="text" class="form-control" id="telponKonsumen" required autocomplete="off" name="telepon_pelanggan">
 
                     </div>
                     <div class="col-md-6">
                         <label for="telponSeluler" class="form-label">Telpon Seluler</label>
-                        <input type="text" class="form-control" id="telponSeluler" required autocomplete="off"
-                            name="telepon_seluler">
+                        <input type="text" class="form-control" id="telponSeluler" required autocomplete="off" name="telepon_seluler">
 
                     </div>
                 </div>
@@ -62,14 +57,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="emailKonsumen" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="emailKonsumen" required autocomplete="off"
-                            name="email_pelanggan">
+                        <input type="text" class="form-control" id="emailKonsumen" required autocomplete="off" name="email_pelanggan">
 
                     </div>
                     <div class="col-md-6">
                         <label for="alamatKonsumen" class="form-label">Alamat</label>
-                        <input type="text" class="form-control" id="alamatKonsumen" required autocomplete="off"
-                            name="alamat_pelanggan">
+                        <input type="text" class="form-control" id="alamatKonsumen" required autocomplete="off" name="alamat_pelanggan">
 
                     </div>
                 </div>
@@ -95,23 +88,20 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="kelengkapanBarang" class="form-label">Kelengkapan</label>
-                            <textarea class="form-control" id="kelengkapanBarang" rows="3"
-                                name="kelengkapan"></textarea>
+                            <textarea class="form-control" id="kelengkapanBarang" rows="3" name="kelengkapan"></textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <br>
                         <br>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="cetakFaktur" checked name="cetak_faktur"
-                                value="1">
+                            <input class="form-check-input" type="radio" id="cetakFaktur" checked name="cetak_faktur" value="1">
                             <label class="form-check-label" for="cetakFaktur">
                                 Cetak Faktur
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="tidakCetakFaktur" name="cetak_faktur"
-                                value="0">
+                            <input class="form-check-input" type="radio" id="tidakCetakFaktur" name="cetak_faktur" value="0">
                             <label class="form-check-label" for="tidakCetakFaktur">
                                 Tidak Cetak Faktur
                             </label>
@@ -130,7 +120,7 @@
 
 @push('scripts')
 <script type="module">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('input[type="date"]').val(new Date().toISOString().slice(0, 10));
         $('input[type="time"]').val(new Date().toLocaleTimeString('en-US', {
             hour12: false,

@@ -24,51 +24,44 @@
 </head>
 
 <body>
-    <div class="px-3">
+    <div class="px-3 container">
         <img src="{{ asset('assets/img/tes_logo.jpg') }}" width="500px" alt="">
-        <p>Jl. Sapujagat No.9 Sukaluyu Bandung <br>Telp/Fax. 022-2502521</p>
+        <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
         <hr>
 
         <h1 class="text-center fw-bolder">FORMULIR TANDA TERIMA SERVIS</h1>
         <br>
-        <p class="fw-bolder">No. 15432454</p>
+        <p class="fw-bolder">No. {{$data->no_faktur}}</p>
 
         <table>
             <tr>
-                <td class="py-1 px-2" colspan="2">Tanggal : <br>22/11/202 3</td>
-                <td class=" py-1 px-2" rowspan="1">Waktu : <br>19:20</td>
+                <td class="py-1 px-2" colspan="2">Tanggal : <br>{{$data->tanggal}}</td>
+                <td class=" py-1 px-2" rowspan="1">Waktu : <br>{{$data->waktu}}</td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI KONSUMEN</td>
             </tr>
             <tr>
-                <td class="py-1 px-2" colspan="2">Nama : <br>Ahmad</td>
-                <td class="py-1 px-2" rowspan="1">Nama Perusahaan : <br>Itil</td>
+                <td class="py-1 px-2" colspan="2">Nama : <br>{{$data->nama_pelanggan}}</td>
+                <td class="py-1 px-2" rowspan="1">Nama Perusahaan : <br>{{$data->nama_perusahaan}}</td>
             </tr>
             <tr>
-                <td class="py-1 px-2">Telpon : <br>082218902325</td>
-                <td class="py-1 px-2">Telpon Seluler : <br>082218902325</td>
-                <td class="py-1 px-2" rowspan="2">Alamat: <br>082218902325</td>
+                <td class="py-1 px-2">Telpon : <br>{{$data->telepon_pelanggan}}</td>
+                <td class="py-1 px-2">Telpon Seluler : <br>{{$data->telepon_seluler}}</td>
+                <td class="py-1 px-2" rowspan="2">Alamat: <br>{{$data->alamat_pelanggan}}</td>
             </tr>
             <tr>
-                <td colspan="2" class="py-1 px-2">Email: <br> asdasd@sadas.com</td>
+                <td colspan="2" class="py-1 px-2">Email: <br> {{$data->email_pelanggan}}</td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI BARANG</td>
             </tr>
             <tr>
                 <td class="px-2 text-start" colspan="2">
-                    <p>Spesifikasi : <br>Laptop Acer Nitro 5 515</p>
-                    <p>Kelengkapan : <br>Tas,Laptop,Charger</p>
+                    <p>Spesifikasi : <br>{{$data->item}}</p>
+                    <p>Kelengkapan : <br>{{$data->kelengkapan}}</p>
                 </td>
-                <td class="px-2 text-start text-wrap" rowspan="1">Keluhan : <br>Lorem Ipsum is
-                    simply dummy
-                    text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-                    type specimen book. It has survived not only five centuries, but also the leap into electronic
-                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-                    Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.</td>
+                <td class="px-2 text-start text-wrap" rowspan="1">Keluhan : <br>{{$data->keluhan}}</td>
             </tr>
             <tr>
                 <td class="text-center" colspan="2">ATURAN DAN SYARAT</td>
@@ -110,12 +103,37 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="container mt-3 mb-3">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-success w-100" id="cetak">Cetak</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary w-100" id="back">Kembali</button>
 
-
-
+            </div>
+        </div>
     </div>
 
+    <script>
+        window.addEventListener('load', () => {
+            //window.print()
+            document.querySelector('#cetak').addEventListener('click', () => {
+                window.print()
+            });
+            document.querySelector('#back').addEventListener('click', () => {
+                let url = "{{ route('tanda-terima.create') }}";
 
+                window.location.href = url;
+
+            });
+
+        })
+    </script>
 </body>
+
+
+
 
 </html>

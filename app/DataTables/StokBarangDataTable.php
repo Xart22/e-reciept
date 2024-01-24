@@ -21,9 +21,12 @@ class StokBarangDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'stokbarang.action')
-            ->setRowId('id');
+            ->addColumn('action', '<div class="container">
+            <a href="' . route('stok-barang.edit', '1') . '" class="btn btn-warning" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Edit"> <i class="bi bi-pencil-square"></i></a>
+            <a href="' . route('stok-barang.edit', '1') . '" class="btn btn-danger" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete"> <i class="bi bi-trash"></i></a>
+        </div>')->setRowId('id');
     }
 
     /**
@@ -59,10 +62,6 @@ class StokBarangDataTable extends DataTable
     {
         return [
 
-
-            // Column::make('add your columns'),
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
             Column::make('kode_barang'),
             Column::make('nama_barang'),
             Column::make('stok_barang'),
@@ -70,8 +69,10 @@ class StokBarangDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+                ->addClass('text-center')
+                ->width(120)
+                ->title('Aksi'),
+
 
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenjualanModel;
 use Illuminate\Http\Request;
 
 class TandaTerimaController extends Controller
@@ -11,6 +12,7 @@ class TandaTerimaController extends Controller
      */
     public function index()
     {
+
         return view('tanda-terima.create');
     }
 
@@ -19,7 +21,10 @@ class TandaTerimaController extends Controller
      */
     public function create()
     {
-        return view('tanda-terima.create');
+        $no = PenjualanModel::where('tanggal', date('Y-m-d'))->count();
+        $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
+
+        return view('tanda-terima.create', compact('no_faktur'));
     }
 
     /**
@@ -27,7 +32,15 @@ class TandaTerimaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = $request->except(['_token', 'cetak_faktur']);
+        $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
+        $data['user_id'] = 1;
+        $data['toko_id'] = 1;
+        $id = PenjualanModel::create($data)->id;
+        if ($request->cetak_faktur == '1') {
+            return redirect()->route('tanda-terima.cetak', $id);
+        }
+        return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil disimpan.');
     }
 
     /**
@@ -35,7 +48,8 @@ class TandaTerimaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = PenjualanModel::findOrFail($id);
+        return view('tanda-terima.show', compact('data'));
     }
 
     /**
@@ -65,8 +79,9 @@ class TandaTerimaController extends Controller
     /**
      * Cetak tanda terima.
      */
-    public function cetakTandaTerima()
+    public function cetakTandaTerima($id)
     {
-        return view('tanda-terima.cetak');
+        $data = PenjualanModel::findOrFail($id)->load('toko');
+        return view('tanda-terima.cetak', compact('data'));
     }
 }
