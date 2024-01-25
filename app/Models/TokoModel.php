@@ -15,4 +15,9 @@ class TokoModel extends Model
     {
         return $this->hasMany(PenjualanModel::class, 'toko_id');
     }
+
+    public function setting()
+    {
+        return $this->hasOne(SettingModel::class, 'toko_id');
+    }
 }

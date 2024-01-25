@@ -49,6 +49,10 @@
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Buat Tanda Terima</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('tanda-terima.index')}}">
+          <svg class="nav-icon">
+            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
+          </svg> Tanda Terima</a></li>
       <li class="nav-item"><a class="nav-link" href="typography.html">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
@@ -59,14 +63,6 @@
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Sparepart</a>
         <ul class="nav-group-items compact">
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('stok-barang.create')}}">
-              <span class="nav-icon">
-                <span class="nav-icon-bullet"></span>
-              </span>
-              Input Sparepart
-            </a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{route('stok-barang.index')}}">
               <span class="nav-icon">
@@ -91,10 +87,8 @@
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Toko</a>
         <ul class="nav-group-items compact">
-          <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"><span
+          <li class="nav-item"><a class="nav-link" href="{{route('toko.create')}}"><span class="nav-icon"><span
                   class="nav-icon-bullet"></span></span>Buat Toko</a></li>
-          <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"><span
-                  class="nav-icon-bullet"></span></span>Pilih Toko</a></li>
         </ul>
       </li>
     </ul>

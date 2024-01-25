@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('penjualan_sparepart', function (Blueprint $table) {
             $table->id();
-            $table->string('no_faktur')->constrained('penjualan');
-            $table->string('kode_barang')->constrained('stok_barang');
+            $table->string('no_faktur');
+            $table->string('kode_barang');
             $table->bigInteger('jumlah_barang');
             $table->string('harga_barang');
             $table->timestamps();

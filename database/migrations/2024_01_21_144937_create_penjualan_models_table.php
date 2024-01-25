@@ -27,9 +27,9 @@ return new class extends Migration
             $table->longText('keluhan');
             $table->longText('keterangan_servis')->nullable();
             $table->string('status_barang')->default('Barang diterima');
-            $table->string('status_pengambilan')->default('Belum diambil');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('toko_id')->constrained('toko');
+            $table->string('status_pengambilan')->default('-');
+            $table->bigInteger('user_id');
+            $table->bigInteger('toko_id');
             $table->timestamps();
         });
     }

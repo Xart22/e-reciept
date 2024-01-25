@@ -22,7 +22,7 @@ class StokBarangController extends Controller
      */
     public function create(StokBarangDataTable $dataTable)
     {
-        return $dataTable->render('stok-barang.create');
+        return $dataTable->render('stok-barang.index');
     }
 
     /**
@@ -46,7 +46,7 @@ class StokBarangController extends Controller
         ], $message);
 
         if ($validator->fails()) {
-            return redirect()->route('stok-barang.create')
+            return redirect()->route('stok-barang.index')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -73,7 +73,29 @@ class StokBarangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $message = [
+            'nama_barang.required' => 'Nama Barang tidak boleh kosong',
+            'stok_barang.required' => 'Stok Barang tidak boleh kosong',
+            'harga_barang.required' => 'Harga Barang tidak boleh kosong',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'nama_barang' => 'required',
+            'stok_barang' => 'required',
+            'harga_barang' => 'required',
+        ], $message);
+
+        if ($validator->fails()) {
+            return redirect()->route('stok-barang.index')->withErrors($validator);
+        }
+
+        $stokBarang = StokBarangModel::find($id);
+        $stokBarang->nama_barang = $request->nama_barang;
+        $stokBarang->stok_barang = $request->stok_barang;
+        $stokBarang->harga_barang = $request->harga_barang;
+        $stokBarang->save();
+
+        return redirect()->route('stok-barang.index')->with('success', 'Data berhasil diubah');
     }
 
     /**
@@ -81,6 +103,9 @@ class StokBarangController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $stokBarang = StokBarangModel::find($id);
+        $stokBarang->delete();
+
+        return redirect()->route('stok-barang.index')->with('success', 'Data berhasil dihapus');
     }
 }

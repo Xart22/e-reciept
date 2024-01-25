@@ -1,5 +1,5 @@
 @extends('layouts.admin') @section('content')
-<div class="container-lg px-4">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
@@ -20,5 +20,14 @@
 @push("scripts")
 
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+<script type="module">
+    $(document).ready(function () {
+    
+    $('#penjualanmodel-table').DataTable().on('draw', function() {
+         const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]')
+         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl))
+        });
+   });
+</script>
 
 @endpush

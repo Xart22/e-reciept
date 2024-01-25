@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PenjualanModelDataTable;
 use App\Models\PenjualanModel;
+use App\Models\SettingModel;
+use App\Models\TokoModel;
 use Illuminate\Http\Request;
 
 class TandaTerimaController extends Controller
@@ -10,10 +13,10 @@ class TandaTerimaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PenjualanModelDataTable $dataTable)
     {
 
-        return view('tanda-terima.create');
+        return $dataTable->render('tanda-terima.index');
     }
 
     /**
@@ -23,8 +26,15 @@ class TandaTerimaController extends Controller
     {
         $no = PenjualanModel::where('tanggal', date('Y-m-d'))->count();
         $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
+        $setting = SettingModel::first();
+        if ($setting) {
+            $tokoDefault = TokoModel::findOrFail($setting->toko_id);
+            $toko = TokoModel::where('id', '!=', $setting->toko_id)->get();
+        } else {
+            return redirect()->route('toko.create')->with('warning', 'Silahkan tambahkan toko terlebih dahulu.');
+        }
 
-        return view('tanda-terima.create', compact('no_faktur'));
+        return view('tanda-terima.create', compact('no_faktur', 'tokoDefault', 'toko'));
     }
 
     /**
@@ -35,7 +45,6 @@ class TandaTerimaController extends Controller
         $data = $request->except(['_token', 'cetak_faktur']);
         $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
         $data['user_id'] = 1;
-        $data['toko_id'] = 1;
         $id = PenjualanModel::create($data)->id;
         if ($request->cetak_faktur == '1') {
             return redirect()->route('tanda-terima.cetak', $id);

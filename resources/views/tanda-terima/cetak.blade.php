@@ -25,7 +25,7 @@
 
 <body>
     <div class="px-3 container">
-        <img src="{{ asset('assets/img/tes_logo.jpg') }}" width="500px" alt="">
+        <img src="{{ asset('assets/img/$data->logo_toko') }}" width="500px" alt="">
         <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
         <hr>
 
