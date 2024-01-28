@@ -58,13 +58,13 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="telponKonsumen" class="form-label">Telpon</label>
-                        <input type="text" class="form-control" id="telponKonsumen" required autocomplete="off"
+                        <input type="tel" class="form-control" id="telponKonsumen" required autocomplete="off"
                             name="telepon_pelanggan">
 
                     </div>
                     <div class="col-md-6">
                         <label for="telponSeluler" class="form-label">Telpon Seluler</label>
-                        <input type="text" class="form-control" id="telponSeluler" required autocomplete="off"
+                        <input type="tel" class="form-control" id="telponSeluler" required autocomplete="off"
                             name="telepon_seluler">
 
                     </div>
@@ -142,19 +142,30 @@
 @push('scripts')
 <script type="module">
     $(document).ready(function() {
-        $('input[type="date"]').val(new Date().toISOString().slice(0, 10));
-        $('input[type="time"]').val(new Date().toLocaleTimeString('en-US', {
-            hour12: false,
-            hour: "numeric",
-            minute: "numeric"
-        }));
-        const timer = setInterval(() => {
-            $('input[type="time"]').val(new Date().toLocaleTimeString('en-US', {
-                hour12: false,
-                hour: "numeric",
-                minute: "numeric"
-            }));
-        }, 1000);
+        const time= new Date().toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+   
+            $('#waktu').val(time.replace('.', ':'));
+            $('#tanggal').val(new Date().toISOString().slice(0, 10));
+            $('input[type="tel"]').on('keypress', function(e) {
+                var char = e.which || e.keyCode;
+                if (char == 43) return true;
+                if (char > 31 && (char < 48 || char > 57)) return false;
+                return true;
+            });
+
+
     });
+    setInterval(() => {
+    const time= new Date().toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+   
+            $('#waktu').val(time.replace('.', ':'));
+            
+        }, 1000);
 </script>
 @endpush

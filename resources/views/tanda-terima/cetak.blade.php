@@ -16,16 +16,22 @@
         }
 
         @media print {
+            .btn {
+                display: none;
+
+            }
+
             body {
-                zoom: 80%;
+                font-size: 12px;
+                background-color: white;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="px-3 container">
-        <img src="{{ asset('assets/img/$data->logo_toko') }}" width="500px" alt="">
+    <div id="wraper">
+        <img src="{{ asset('storage/img/' . $data->toko->logo_toko) }}" width="100px">
         <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
         <hr>
 
@@ -120,13 +126,17 @@
         window.addEventListener('load', () => {
             //window.print()
             document.querySelector('#cetak').addEventListener('click', () => {
-                window.print()
+                window.print();
+
             });
             document.querySelector('#back').addEventListener('click', () => {
                 let url = "{{ route('tanda-terima.create') }}";
 
                 window.location.href = url;
 
+            });
+            window.addEventListener("afterprint", (event) => {
+            window.location.href = "{{ route('tanda-terima.create') }}";
             });
 
         })

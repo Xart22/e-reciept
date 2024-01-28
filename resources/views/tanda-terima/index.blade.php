@@ -26,7 +26,24 @@
     $('#penjualanmodel-table').DataTable().on('draw', function() {
          const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]')
          const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl))
+         const urlUpdate = "{{ route('tanda-terima.edit', ':id') }}";
+         const urlDelete = "{{ route('tanda-terima.destroy', ':id') }}";
+         const urlCetak = "{{ route('tanda-terima.cetak', ':id') }}";
+
+        $('.btn-update').click(function() {
+            const id = $(this).data('id');
+            const url = urlUpdate.replace(':id', id);
+            window.location = url;
         });
+        $(".btn-print").click(function() {
+            const id = $(this).data('id');
+            const url = urlCetak.replace(':id', id);
+            window.location = url;
+        });
+    });
+
+    
+
    });
 </script>
 

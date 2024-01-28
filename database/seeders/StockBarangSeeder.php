@@ -21,7 +21,7 @@ class StockBarangSeeder extends Seeder
                 'nama_barang' => $faker->name,
                 'stok_barang' => $faker->numberBetween(1, 100),
                 'satuan_barang' => $faker->randomElement(['pcs', 'box', 'lusin']),
-                'harga_barang' => $faker->numberBetween(1000, 100000),
+                'harga_barang' => "Rp " . number_format($faker->numberBetween(1000, 100000), 0, ',', '.'),
                 'gambar_barang' => $faker->imageUrl(640, 480),
                 'created_at' => now(),
                 'updated_at' => now(),

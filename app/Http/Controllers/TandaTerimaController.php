@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\DataTables\PenjualanModelDataTable;
 use App\Models\PenjualanModel;
 use App\Models\SettingModel;
+use App\Models\StokBarangModel;
 use App\Models\TokoModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TandaTerimaController extends Controller
 {
@@ -24,7 +26,7 @@ class TandaTerimaController extends Controller
      */
     public function create()
     {
-        $no = PenjualanModel::where('tanggal', date('Y-m-d'))->count();
+        $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->count();
         $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
         $setting = SettingModel::first();
         if ($setting) {
@@ -44,7 +46,8 @@ class TandaTerimaController extends Controller
     {
         $data = $request->except(['_token', 'cetak_faktur']);
         $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::user()->id;
+        dd($data);
         $id = PenjualanModel::create($data)->id;
         if ($request->cetak_faktur == '1') {
             return redirect()->route('tanda-terima.cetak', $id);
@@ -57,8 +60,6 @@ class TandaTerimaController extends Controller
      */
     public function show(string $id)
     {
-        $data = PenjualanModel::findOrFail($id);
-        return view('tanda-terima.show', compact('data'));
     }
 
     /**
@@ -66,7 +67,9 @@ class TandaTerimaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = PenjualanModel::findOrFail($id);
+        $sparePart = StokBarangModel::get();
+        return view('tanda-terima.edit', compact('data', 'sparePart'));
     }
 
     /**
@@ -74,7 +77,6 @@ class TandaTerimaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**

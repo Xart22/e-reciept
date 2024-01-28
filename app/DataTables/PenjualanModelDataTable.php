@@ -24,11 +24,22 @@ class PenjualanModelDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
                 return '<div class="container">
-                <button  class="btn btn-primary btn-detail me-1" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-pencil-square"></i></button>
-                <button  class="btn btn-danger btn-dark " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Faktur" data-id="' . $data->id . '"> <i class="bi bi-printer"></i></button>
+                <button  class="btn btn-warning btn-update" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Update Status" data-id="' . $data->id . '"> <i class="bi bi-pencil-square"></i></button>
+                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '"> <i class="bi bi-printer"></i></button>
                 <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '"> <i class="bi bi-trash"></i></button>
             </div>';
-            });
+            })
+            ->editColumn('status_barang', function ($data) {
+                if ($data->status_barang == 'Proses') {
+                    return '<span class="badge bg-primary w-100 fs-6">' . $data->status_barang . '</span>';
+                } else if ($data->status_barang == 'Selesai') {
+                    return '<span class="badge bg-succes w-100 fs-6">' . $data->status_barang . '</span>';
+                } else if ($data->status_barang == 'Barang di terima') {
+                    return '<span class="badge bg-secondary w-100 fs-6">' . $data->status_barang . '</span>';
+                } else {
+                    return '<span class="badge bg-danger w-100 fs-6">' . $data->status_barang . '</span>';
+                }
+            })->rawColumns(['action', 'status_barang']);
     }
 
     /**
@@ -46,9 +57,11 @@ class PenjualanModelDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('penjualanmodel-table')
+            ->parameters([
+                'autoWidth' => false
+            ])
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
             ->orderBy(1)
             ->buttons([]);
     }

@@ -76,7 +76,7 @@
                                 <input class="form-check-input" type="checkbox" id="default_toko" name="default_toko"
                                     checked value="1">
                                 <label class="form-check-label" for="default_toko">
-                                    Jadikan sebagai toko utama
+                                    Toko utama
                                 </label>
                             </div>
                             <div class="col-12">

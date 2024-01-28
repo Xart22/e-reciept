@@ -185,7 +185,7 @@
     
         $('#btnCancel').click(function() {
             $('#titleCard').text('Input Data Sparepart');
-            $('#formStockBarang').attr('action', "{{ route('toko.store') }}");
+            $('#formStockBarang').attr('action', "{{ route('stok-barang.store') }}");
             $('#formStockBarang').attr('method', 'post');
             $('#formStockBarang').find('input[name="_method"]').remove();
             $('#kodeBarang').attr('disabled', false);

@@ -21,6 +21,35 @@
 
   <link href="{{ asset('vendors/@coreui/chartjs/css/coreui-chartjs.css') }}" rel="stylesheet" />
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+  <style>
+    .wraper-search {
+      position: relative !important;
+    }
+
+    #autocompleteResults {
+      position: absolute;
+      width: 100%;
+      max-height: 350px;
+      overflow-y: auto;
+      z-index: 9999;
+      display: none;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #autocompleteResults a {
+      cursor: pointer;
+      display: block;
+      padding: 10px;
+      color: #333;
+    }
+
+    #autocompleteResults.show {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -39,7 +68,7 @@
         onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-      <li class="nav-item"><a class="nav-link " href="index.html">
+      <li class="nav-item"><a class="nav-link " href="{{route('home')}}">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
           </svg> Dashboard</a>
@@ -57,7 +86,8 @@
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg> Cetak Invoice</a></li>
-      <li class="nav-title">Components</li>
+      @if (Auth::user()->role == 'Admin')
+      <li class="nav-title">Sparepart</li>
       <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
@@ -74,14 +104,17 @@
           </li>
         </ul>
       </li>
+      @endif
       <li class="nav-title">Laporan</li>
       <li class="nav-item"><a class="nav-link" href="base/accordion.html"><svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Laporan Penjualan</a></li>
       <li class="nav-title">Pengaturan</li>
-      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><svg class="nav-icon">
+      @if (Auth::user()->role == 'Admin')
+      <li class="nav-item"><a class="nav-link" href="{{route('manajemen-user.index')}}"><svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>User</a></li>
+      @endif
       <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
@@ -142,14 +175,17 @@
           <li class="nav-item py-1">
             <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-          <li class="nav-item dropdown"><a class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#"
-              role="button" aria-haspopup="true" aria-expanded="false">
-              <div class="avatar avatar-md">
-                <svg class="icon me-2">
-                  <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout') }}"></use>
-                </svg>
-              </div>
-            </a>
+          <li class="nav-item">
+            <form action="{{route('logout')}}" method="post">
+              @csrf
+              <button class="nav-link py-0 pe-0" type="submit">
+                <div class="avatar avatar-md">
+                  <svg class="icon me-2">
+                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout') }}"></use>
+                  </svg>
+                </div>
+              </button>
+            </form>
           </li>
         </ul>
       </div>
