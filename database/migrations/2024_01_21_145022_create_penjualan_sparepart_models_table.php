@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('no_faktur');
             $table->string('kode_barang');
-            $table->bigInteger('jumlah_barang');
-            $table->string('harga_barang');
+            $table->string('nama_barang');
+            $table->bigInteger('jumlah');
+            $table->string('harga');
+            $table->string('subtotal');
             $table->timestamps();
         });
     }

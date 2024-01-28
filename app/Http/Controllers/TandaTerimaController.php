@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PenjualanModelDataTable;
 use App\Models\PenjualanModel;
+use App\Models\PenjualanSparepartModel;
 use App\Models\SettingModel;
 use App\Models\StokBarangModel;
 use App\Models\TokoModel;
@@ -46,8 +47,7 @@ class TandaTerimaController extends Controller
     {
         $data = $request->except(['_token', 'cetak_faktur']);
         $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
-        $data['user_id'] = Auth::user()->id;
-        dd($data);
+        $data['created_by'] = Auth::user()->id;
         $id = PenjualanModel::create($data)->id;
         if ($request->cetak_faktur == '1') {
             return redirect()->route('tanda-terima.cetak', $id);
@@ -60,6 +60,8 @@ class TandaTerimaController extends Controller
      */
     public function show(string $id)
     {
+        $data = PenjualanModel::where('id', $id)->with(['toko', 'userCreate', 'userUpdate', 'sparePart'])->first();
+        return view('tanda-terima.show', compact('data'));
     }
 
     /**
@@ -77,6 +79,37 @@ class TandaTerimaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if ($request->cancel == "1") {
+            PenjualanModel::where('id', $id)->update(['keterangan_service' => $request->keterangan_service, 'status_service' => 'Cancel', 'updated_by' => Auth::user()->id]);
+            return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
+        }
+        $item_sparepart = json_decode($request->item_sparepart, true);
+        $data = $request->except(['_token', 'cancel', '_method', 'cetak_faktur', 'item_sparepart', 'total']);
+        $data['total_harga'] = $request->total;
+        $data['updated_by'] = Auth::user()->id;
+        $data['status_service'] = 'Selesai';
+        if ($request->cetak_faktur == '1') {
+            $data['status_pengambilan'] = "Sudah Diambil";
+        } else {
+            $data['status_pengambilan'] = "Belum Diambil";
+        }
+        PenjualanModel::where('id', $id)->update($data);
+        $no_faktur = PenjualanModel::where('id', $id)->first()->no_faktur;
+        foreach ($item_sparepart as $item) {
+            StokBarangModel::where('kode_barang', $item['kode_barang'])->decrement('stok', $item['qty']);
+            PenjualanSparepartModel::create([
+                'no_faktur' => $no_faktur,
+                'kode_barang' => $item['kode_barang'],
+                'nama_barang' => $item['nama_barang'],
+                'jumlah' => $item['qty'],
+                'harga' => $item['harga_barang'],
+                'subtotal' => $item['subtotal'],
+            ]);
+        }
+        if ($request->cetak_faktur == '1') {
+            return redirect()->route('tanda-terima.cetak', $id);
+        }
+        return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
     }
 
     /**
@@ -84,7 +117,9 @@ class TandaTerimaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = PenjualanModel::findOrFail($id);
+        $data->delete();
+        return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil dihapus.');
     }
 
     /**
@@ -92,7 +127,20 @@ class TandaTerimaController extends Controller
      */
     public function cetakTandaTerima($id)
     {
-        $data = PenjualanModel::findOrFail($id)->load('toko');
+        $data = PenjualanModel::findOrFail($id)->with(['toko', 'userCreate'])->first();
         return view('tanda-terima.cetak', compact('data'));
+    }
+
+    public function updateStatusPengambilan($id)
+    {
+        PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Sudah Diambil']);
+        return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
+    }
+
+    public function cetakInvoice($id)
+    {
+
+        $data = PenjualanModel::where('id', $id)->with(['toko', 'userCreate', 'userUpdate', 'sparePart'])->first();
+        return view('tanda-terima.invoice', compact('data'));
     }
 }

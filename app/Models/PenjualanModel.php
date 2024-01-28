@@ -15,4 +15,19 @@ class PenjualanModel extends Model
     {
         return $this->belongsTo(TokoModel::class, 'toko_id');
     }
+
+    public function userCreate()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function userUpdate()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function sparePart()
+    {
+        return $this->hasMany(PenjualanSparePartModel::class, 'no_faktur', 'no_faktur');
+    }
 }

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <title>Document</title>
+    <style>
+        h1 {
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 40pt;
+            float: right;
+            padding-right: 50px;
+            padding-top: calc(200px - 130pt);
+        }
+
+        p {
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            text-decoration: none;
+        }
+
+        body {
+            background-color: white;
+            /* width A4 */
+            width: 21cm;
+            height: 29.7cm;
+            border: 1px solid black;
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            text-decoration: none;
+        }
+
+        table,
+        tbody {
+            vertical-align: top;
+            overflow: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wraper" class="p-3">
+        {{-- Send url to electron --}}
+        <input type="hidden" id="check-url-print" value=" {{ url()->current() }}">
+        <div class="d-flex justify-content-between rounded border border-1">
+            <div class="col">
+                <div class=" d-flex p-2" style="width: 200px; height: 120px;">
+                    <div class="mx-auto">
+                        <img src=" {{ asset('storage/img/' . $data->toko->logo_toko) }}" width="100px">
+                        <p style="font-size: 10px">{{$data->toko->alamat_toko}} <br>Telp/Fax.
+                            {{$data->toko->telepon_toko}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h1>
+                    Invoice
+                </h1>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div class="row fw-bolder p-3">
+                    <p>
+                        Bill :
+                    </p>
+                    <div class="border p-2 rounded">
+                        <p>
+                            {{$data->nama_pelanggan}}
+                            <br>
+                            {{$data->nama_perusahaan}} <br>
+                            {{$data->alamat_pelanggan}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col p-3">
+                <br>
+                <div class="row p-3">
+                    <div class="col border rounded">
+                        <p>Invoice Date :</p>
+                        <p class="fw-bolder">{{date('d M Y', strtotime($data->tanggal))}}</p>
+                    </div>
+                    <div class="col border rounded">
+                        <p>Invoice No :</p>
+                        <p class="fw-bolder">{{$data->no_faktur}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table style="border-collapse: collapse;" cellspacing="0">
+            <tr style="height: 27pt">
+                <td style="
+                    width: 73pt;
+                    border-top-style: solid;
+                    border-top-width: 1pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s1" style="
+                        padding-top: 8pt;
+                        padding-left: 17pt;
+                        padding-right: 17pt;
+                        text-indent: 0pt;
+                        text-align: center;
+                    ">
+                        Item
+                    </p>
+                </td>
+                <td style="
+                    width: 156pt;
+                    border-top-style: solid;
+                    border-top-width: 1pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s1" style="
+                        padding-top: 8pt;
+                        padding-left: 43pt;
+                        text-indent: 0pt;
+                        text-align: left;
+                    ">
+                        Item Description
+                    </p>
+                </td>
+                <td style="
+                    width: 58pt;
+                    border-top-style: solid;
+                    border-top-width: 1pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s1" style="
+                        padding-top: 8pt;
+                        padding-left: 20pt;
+                        padding-right: 20pt;
+                        text-indent: 0pt;
+                        text-align: center;
+                    ">
+                        Qty
+                    </p>
+                </td>
+                <td style="
+                    width: 99pt;
+                    border-top-style: solid;
+                    border-top-width: 1pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s1" style="
+                        padding-top: 8pt;
+                        padding-left: 1pt;
+                        text-indent: 0pt;
+                        text-align: left;
+                    ">
+                        Unit Price ( IDR )
+                    </p>
+                </td>
+                <td style="
+                    width: 173pt;
+                    border-top-style: solid;
+                    border-top-width: 1pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s1" style="
+                        padding-top: 8pt;
+                        padding-left: 41pt;
+                        text-indent: 0pt;
+                        text-align: left;
+                    ">
+                        Amount ( IDR )
+                    </p>
+                </td>
+            </tr>
+            @foreach ($data->sparepart as $item)
+            <tr style="height: 12pt">
+                <td style="
+                    width: 73pt;
+                    border-top-style: solid;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s2" style="
+                        padding-left: 19pt;
+                        padding-right: 17pt;
+                        text-indent: 0pt;
+                        text-align: center;
+                    ">
+                        {{$item->kode_barang}}
+                    </p>
+                </td>
+                <td style="
+                    width: 156pt;
+                    border-top-style: solid;
+          
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s2" style="
+                        padding-left: 4pt;
+                        text-indent: 0pt;
+                        text-align: left;
+                    ">
+                        {{$item->nama_barang}}
+                    </p>
+                </td>
+                <td style="
+                    width: 58pt;
+                    border-top-style: solid;
+     
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s2" style="text-indent: 0pt; text-align: center">
+                        {{$item->jumlah}}
+                    </p>
+                </td>
+                <td style="
+                    width: 99pt;
+                    border-top-style: solid;
+
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s2" style="
+                        padding-right: 1pt;
+                        text-indent: 0pt;
+                        text-align: right;
+                    ">
+                        {{$item->harga}}
+                    </p>
+                </td>
+                <td style="
+                    width: 173pt;
+                    border-top-style: solid;
+   
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p class="s2" style="
+                        padding-right: 1pt;
+                        text-indent: 0pt;
+                        text-align: right;
+                    ">
+                        {{$item->subtotal}}
+                    </p>
+                </td>
+            </tr>
+            @endforeach
+
+            <tr style="height: 10pt">
+                <td style="
+                    width: 73pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p style="text-indent: 0pt; text-align: left"><br /></p>
+                </td>
+                <td style="
+                    width: 156pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p style="text-indent: 0pt; text-align: left"><br /></p>
+                </td>
+                <td style="
+                    width: 58pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p style="text-indent: 0pt; text-align: left"><br /></p>
+                </td>
+                <td style="
+                    width: 99pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p style="text-indent: 0pt; text-align: left"><br /></p>
+                </td>
+                <td style="
+                    width: 173pt;
+                    border-left-style: solid;
+                    border-left-width: 1pt;
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    border-right-style: solid;
+                    border-right-width: 1pt;
+                ">
+                    <p style="text-indent: 0pt; text-align: left"><br /></p>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="border rounded p-2">
+                    <span class="fw-bolder">Say : </span><span>{{$data->total_harga}} </span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="col border rounded p-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="fw-bolder">Sub total :</div>
+                        <div class="fw-bolder">{{$data->total_harga}}</div>
+                    </div>
+                </div>
+                <div class="col border rounded p-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="fw-bolder">Discount :</div>
+                        <div class="fw-bolder">0</div>
+                    </div>
+                </div>
+                <div class="col border rounded p-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="fw-bolder">Total Invoice :</div>
+                        <div class="fw-bolder">{{$data->total_harga}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class=" text-center">Received By</p>
+                <br><br><br>
+                <hr>
+                <p>Date.</p>
+            </div>
+            <div class="col">
+                <p class=" text-center">Prepared By</p>
+                <br><br><br>
+                <hr>
+                <p>Date.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+
+
+</html>

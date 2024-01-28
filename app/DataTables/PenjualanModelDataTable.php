@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\PenjualanModel;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -23,23 +24,44 @@ class PenjualanModelDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
-                return '<div class="container">
-                <button  class="btn btn-warning btn-update" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Update Status" data-id="' . $data->id . '"> <i class="bi bi-pencil-square"></i></button>
-                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '"> <i class="bi bi-printer"></i></button>
-                <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '"> <i class="bi bi-trash"></i></button>
+
+                if (Auth::user()->role == 'Admin') {
+                    if ($data->status_service == 'Cancel' || $data->status_service == 'Selesai') {
+                        return '<div class="container">
+                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-file-text"></i></i></button>
+                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
+                <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '" data-id-faktur="' . $data->no_faktur . '"> <i class="bi bi-trash"></i></button>
             </div>';
-            })
-            ->editColumn('status_barang', function ($data) {
-                if ($data->status_barang == 'Proses') {
-                    return '<span class="badge bg-primary w-100 fs-6">' . $data->status_barang . '</span>';
-                } else if ($data->status_barang == 'Selesai') {
-                    return '<span class="badge bg-succes w-100 fs-6">' . $data->status_barang . '</span>';
-                } else if ($data->status_barang == 'Barang di terima') {
-                    return '<span class="badge bg-secondary w-100 fs-6">' . $data->status_barang . '</span>';
+                    }
+                    return '<div class="container">
+                <button  class="btn btn-warning btn-update" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Update Status" data-id="' . $data->id . '"> <i class="bi bi-pencil-square"></i></button>
+                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
+                <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '" data-id-faktur="' . $data->no_faktur . '"> <i class="bi bi-trash"></i></button>
+            </div>';
                 } else {
-                    return '<span class="badge bg-danger w-100 fs-6">' . $data->status_barang . '</span>';
+                    if ($data->status_service == 'Cancel' || $data->status_service == 'Selesai') {
+                        return '<div class="container">
+                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-file-text"></i></i></button>
+                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
+            </div>';
+                    }
+                    return '<div class="container">
+                <button  class="btn btn-warning btn-update" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Update Status" data-id="' . $data->id . '"> <i class="bi bi-pencil-square"></i></button>
+                <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
+            </div>';
                 }
-            })->rawColumns(['action', 'status_barang']);
+            })
+            ->editColumn('status_service', function ($data) {
+                if ($data->status_service == 'Proses') {
+                    return '<span class="badge bg-primary w-100 fs-6">' . $data->status_service . '</span>';
+                } else if ($data->status_service == 'Selesai') {
+                    return '<span class="badge bg-success w-100 fs-6">' . $data->status_service . '</span>';
+                } else if ($data->status_service == 'Barang di terima') {
+                    return '<span class="badge bg-secondary w-100 fs-6">' . $data->status_service . '</span>';
+                } else {
+                    return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
+                }
+            })->rawColumns(['action', 'status_service']);
     }
 
     /**
@@ -80,7 +102,7 @@ class PenjualanModelDataTable extends DataTable
             Column::make('telepon_pelanggan'),
             Column::make('telepon_seluler'),
             Column::make('item'),
-            Column::make('status_barang'),
+            Column::make('status_service'),
             Column::make('status_pengambilan'),
             Column::make('action')
                 ->exportable(false)

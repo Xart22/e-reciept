@@ -82,10 +82,10 @@
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg> Tanda Terima</a></li>
-      <li class="nav-item"><a class="nav-link" href="typography.html">
+      {{-- <li class="nav-item"><a class="nav-link" href="typography.html">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
-          </svg> Cetak Invoice</a></li>
+          </svg>Invoice</a></li> --}}
       @if (Auth::user()->role == 'Admin')
       <li class="nav-title">Sparepart</li>
       <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
@@ -140,6 +140,11 @@
           </svg>
         </button>
         <ul class="header-nav">
+          <li class="nav-item">
+            <button class="nav-link px-2">
+              {{Auth::user()->username}}
+            </button>
+          </li>
           <li class="nav-item dropdown">
             <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
               aria-expanded="false" data-coreui-toggle="dropdown">

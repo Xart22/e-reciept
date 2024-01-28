@@ -25,11 +25,13 @@ return new class extends Migration
             $table->string('item');
             $table->longText('kelengkapan');
             $table->longText('keluhan');
-            $table->longText('keterangan_servis')->nullable();
-            $table->string('status_barang')->default('Barang diterima');
+            $table->longText('keterangan_service')->nullable();
+            $table->string('status_service')->default('Barang diterima');
             $table->string('status_pengambilan')->default('-');
-            $table->bigInteger('user_id');
+            $table->bigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by');
             $table->bigInteger('toko_id');
+            $table->string('total_harga')->nullable();
             $table->timestamps();
         });
     }

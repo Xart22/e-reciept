@@ -188,6 +188,7 @@
             $('#formStockBarang').attr('action', "{{ route('stok-barang.store') }}");
             $('#formStockBarang').attr('method', 'post');
             $('#formStockBarang').find('input[name="_method"]').remove();
+            $('#kodeBarang').append('<input type="hidden" name="_method" value="POST">');
             $('#kodeBarang').attr('disabled', false);
             $('#kodeBarang').val('');
             $('#namaBarang').val('');

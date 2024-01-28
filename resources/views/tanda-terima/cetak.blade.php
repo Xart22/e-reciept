@@ -31,7 +31,9 @@
 
 <body>
     <div id="wraper">
-        <img src="{{ asset('storage/img/' . $data->toko->logo_toko) }}" width="100px">
+        {{-- Send url to electron --}}
+        <input type="hidden" id="check-url-print" value=" {{ url()->current() }}">
+        <img src="{{ asset('storage/img/' . $data->toko->logo_toko) }}" width="150px">
         <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
         <hr>
 
@@ -75,37 +77,42 @@
             </tr>
             <tr>
                 <td class="py-1 px-2" colspan="2">
-                    <div class="text-wrap" style="width: 50vw">
-                        1. Saya telah membaca dan menyetujui aturan dan syarat yang
-                        berlaku di Prima Tech <br>
-                        2. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        3. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        4. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        5. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        6. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        7. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        <br><br>
+                    <div style="width: 50vw; height: 50%;">
+                        1. {{$data->toko->nama_toko}} tidak bertanggung jawab atas segala resiko kehilangan atau
+                        kerusakan data yang ada didalamnya.<br>
+                        2. Untuk service diluar garansi, persetujuan konsumen dibutuhkan dalam waktu 3 hari kerja
+                        setelah penawaran biaya perbaikan diberikan.<br>
+                        3. Formulir Tanda Terima Service ini harus dibawa saat konsumen melakukan pengambilan barangnya,
+                        {{$data->toko->nama_toko}} berhak untuk menolak pengambilan barang jika konsumen tidak bisa
+                        menunjukan Formulir Tanda Terima Servicenya.<br>
+                        4. Konsumen harus SEGERA menghubungi {{$data->toko->nama_toko}} jika kehilangan formulir ini,
+                        {{$data->toko->nama_toko}} tidak bertanggung jawab jika ada pihak lain yang menggunakan Formulir
+                        tersebut untuk mengambil barang yang telah diperbaiki.<br>
+                        5. Jika barang yang telah diperbaiki tidak diambil dalam jangka waktu (3) bulan maka
+                        {{$data->toko->nama_toko}} tidak bertanggung jawab terhadap resiko kehilangan atau kerusakan
+                        barangnya.<br>
+                    </div>
+                    <br><br>
+                    <div>
                         <p class="text-center">DITERIMA OLEH</p>
                         <br><br><br><br> <br>
-                        <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>sadsadsa</span> &nbsp;&nbsp;&nbsp;)
+                        <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>{{$data->userCreate->username}}</span>
+                            &nbsp;&nbsp;&nbsp;) </p>
                     </div>
                 </td>
                 <td class="py-1 px-2">
-                    <div class="text-wrap">
-                        1. Saya telah membaca dan menyetujui aturan dan syarat yang
-                        berlaku di Prima Tech <br>
-                        2. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        3. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        4. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        5. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        6. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        7. sadsadasdsadetgaraewraeraeresgrghrd<br>
-                        <br><br>
-                        <p class="text-center">TANDA TANGAN KONSUMEN</p>
-                        <br><br><br><br> <br>
-                        <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>sadsadsa</span> &nbsp;&nbsp;&nbsp;)
-                        </p>
+                    <div style="height: 50%;">
+                        Saya memberikan izin kepada {{$data->toko->nama_toko}}, Untk memperbaiki barang dengan
+                        Spesifikasi yang disebutkan diatas. Saya menyatakan bahwa semua informasi yang Saya berikan
+                        adalah benar adanya. Saya menyetujui aturan dan syarat yang diberikan.
+
                     </div>
+                    <br><br><br><br><br><br><br><br>
+                    <p class=" text-center">TANDA TANGAN KONSUMEN</p>
+                    <br><br><br><br> <br>
+                    <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>{{$data->nama_pelanggan}}</span>
+                        &nbsp;&nbsp;&nbsp;)
+                    </p>
                 </td>
             </tr>
         </table>
@@ -124,7 +131,30 @@
 
     <script>
         window.addEventListener('load', () => {
-            //window.print()
+
+         function isElectron() {
+                // Renderer process
+                if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+                    return true;
+                }
+
+                // Main process
+                if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+                    return true;
+                }
+
+                // Detect the user agent when the `nodeIntegration` option is set to true
+                if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+                    return true;
+                }
+
+                return false;
+        }
+        const isElectronApp = isElectron();
+        if (isElectronApp) {
+            
+        } else {
+            window.print()
             document.querySelector('#cetak').addEventListener('click', () => {
                 window.print();
 
@@ -136,9 +166,9 @@
 
             });
             window.addEventListener("afterprint", (event) => {
-            window.location.href = "{{ route('tanda-terima.create') }}";
+            window.close();
             });
-
+        }
         })
     </script>
 </body>

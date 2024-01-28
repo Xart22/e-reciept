@@ -50,6 +50,10 @@ class StokBarangController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        StokBarangModel::create($request->all());
+
+        return redirect()->route('stok-barang.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
