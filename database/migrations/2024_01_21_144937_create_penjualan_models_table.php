@@ -26,7 +26,7 @@ return new class extends Migration
             $table->longText('kelengkapan');
             $table->longText('keluhan');
             $table->longText('keterangan_service')->nullable();
-            $table->string('status_service')->default('Barang diterima');
+            $table->string('status_service')->default('Proses');
             $table->string('status_pengambilan')->default('-');
             $table->bigInteger('updated_by')->nullable();
             $table->bigInteger('created_by');

@@ -31,7 +31,7 @@ class Penjualan extends Seeder
                 "item" => $faker->text,
                 "keluhan" => $faker->text,
                 "kelengkapan" => $faker->text,
-                "user_id" => 1
+                "created_by" => "1",
             ];
         }
 

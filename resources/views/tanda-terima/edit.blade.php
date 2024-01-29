@@ -175,72 +175,72 @@
 </div>
 @endsection @push('scripts')
 <script type="module">
-    $(document).ready(function(){
-   // Data contoh untuk autocomplete
-   var dataSuggestion = {!! $sparePart !!};
-   $(document).keyup(function(e) {
-    if (e.key === "Escape") { 
-       $('#autocompleteResults').hide();
-   }
-   });
-   
-   
-   // Fungsi untuk menampilkan hasil autocomplete
-   function showAutocompleteResults(results) {
-   
-   var resultList = $('#autocompleteResults');
-   resultList.empty();
-   
-   for (var i = 0; i < results.length; i++) {
-       if(results[i].stok_barang == 0){
-         
-           resultList.append(`<a  class="list-group-item list-group-item-action bg-secondary" disabled>${results[i].kode_barang} - ${results[i].nama_barang} | <span class="bg-danger text-white p-1"><strong>Stok Kosong</strong></span></a>`);
-       }else{
-       resultList.append(`<a  class="list-group-item list-group-item-action" data-kode_barang="${results[i].kode_barang}" data-nama_barang="${results[i].nama_barang}" data-stok_barang="${results[i].stok_barang}" data-harga_barang="${results[i].harga_barang}" data-satuan_barang="${results[i].satuan_barang}">${results[i].kode_barang} - ${results[i].nama_barang} | <span class="p-1">Stok : <strong>${results[i].stok_barang}</strong></span></a></a>`);
-       }
-   }
-   resultList.show();
-   }
-   
-   $('#searchInput').on('click', function(){
-   
-     showAutocompleteResults(dataSuggestion);
-   
-   });
-   
-   // Fungsi untuk melakukan pencarian autocomplete
-   $('#searchInput').on('input', function(){
-   var inputText = $(this).val().toLowerCase();
-   var results = [];
-   
-   if (inputText.length > 0) {
-     results = dataSuggestion.filter(function(item){
-       return item.kode_barang.toLowerCase().includes(inputText) || item.nama_barang.toLowerCase().includes(inputText);
-     });
-   }
-   
-   showAutocompleteResults(results);
-   });
-   
-   
-   $('#autocompleteResults').on('click', 'a', function(){
-   if($(this).attr('disabled') == 'disabled'){
-   return false;
-   }
-   var selectedValue = $(this).text();
-   var kode_barang = $(this).data('kode_barang');
-   var nama_barang = $(this).data('nama_barang');
-   var stok_barang = $(this).data('stok_barang');
-   var harga_barang = $(this).data('harga_barang');
-   var satuan_barang = $(this).data('satuan_barang');
-   dataSuggestion = dataSuggestion.filter(function(item){
-       return item.kode_barang != kode_barang;
-     
-   });
-   
-   // Menambahkan item ke tabel
-   var table = $('#tableSparepart tbody');
-   var row = `
+    $(document).ready(function() {
+        // Data contoh untuk autocomplete
+        var dataSuggestion = {!!$sparePart!!};
+        $(document).keyup(function(e) {
+            if (e.key === "Escape") {
+                $('#autocompleteResults').hide();
+            }
+        });
+
+
+        // Fungsi untuk menampilkan hasil autocomplete
+        function showAutocompleteResults(results) {
+
+            var resultList = $('#autocompleteResults');
+            resultList.empty();
+
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].stok_barang == 0) {
+
+                    resultList.append(`<a  class="list-group-item list-group-item-action bg-secondary" disabled>${results[i].kode_barang} - ${results[i].nama_barang} | <span class="bg-danger text-white p-1"><strong>Stok Kosong</strong></span></a>`);
+                } else {
+                    resultList.append(`<a  class="list-group-item list-group-item-action" data-kode_barang="${results[i].kode_barang}" data-nama_barang="${results[i].nama_barang}" data-stok_barang="${results[i].stok_barang}" data-harga_barang="${results[i].harga_barang}" data-satuan_barang="${results[i].satuan_barang}">${results[i].kode_barang} - ${results[i].nama_barang} | <span class="p-1">Stok : <strong>${results[i].stok_barang}</strong></span></a></a>`);
+                }
+            }
+            resultList.show();
+        }
+
+        $('#searchInput').on('click', function() {
+
+            showAutocompleteResults(dataSuggestion);
+
+        });
+
+        // Fungsi untuk melakukan pencarian autocomplete
+        $('#searchInput').on('input', function() {
+            var inputText = $(this).val().toLowerCase();
+            var results = [];
+
+            if (inputText.length > 0) {
+                results = dataSuggestion.filter(function(item) {
+                    return item.kode_barang.toLowerCase().includes(inputText) || item.nama_barang.toLowerCase().includes(inputText);
+                });
+            }
+
+            showAutocompleteResults(results);
+        });
+
+
+        $('#autocompleteResults').on('click', 'a', function() {
+            if ($(this).attr('disabled') == 'disabled') {
+                return false;
+            }
+            var selectedValue = $(this).text();
+            var kode_barang = $(this).data('kode_barang');
+            var nama_barang = $(this).data('nama_barang');
+            var stok_barang = $(this).data('stok_barang');
+            var harga_barang = $(this).data('harga_barang');
+            var satuan_barang = $(this).data('satuan_barang');
+            dataSuggestion = dataSuggestion.filter(function(item) {
+                return item.kode_barang != kode_barang;
+
+            });
+
+            // Menambahkan item ke tabel
+            var table = $('#tableSparepart tbody');
+            var row = `
      <tr>
        <td>${table.children().length + 1}</td>
        <td class="text-center">${kode_barang}</td>
@@ -251,121 +251,126 @@
        <td><button type="button" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-x-circle"></i></button></td>
      </tr>
    `;
-   row = $(row);
-   table.append(row);
-   var itemSparepart= [{
-       kode_barang: kode_barang,
-       nama_barang: nama_barang,
-       qty: 1,
-       harga_barang: harga_barang,
-       satuan_barang: satuan_barang,
-       subtotal: harga_barang,
-   }];
-   if($('#itemSparepart').val() != ''){
-       var itemValue = $('#itemSparepart').val();
-       var item = JSON.parse(itemValue);
-       item.push({
-           kode_barang: kode_barang,
-           nama_barang: nama_barang,
-           qty: 1,
-           harga_barang: harga_barang,
-           satuan_barang: satuan_barang,
-           subtotal: harga_barang,
-       });
-       $('#itemSparepart').val(JSON.stringify(item));
-   }else{
-       $('#itemSparepart').val(JSON.stringify(itemSparepart));
-   }
-   
-   
-   $('#searchInput').val('');
-   calculateTotal();
-   showAutocompleteResults([]);
-   });
-   
-   $('#tableSparepart').on('change', '.qty', function(){
-   var qty = $(this).val();
-   var kode_barang = $(this).closest('tr').find('td:nth-child(2)').text();
-   const itemValue = $('#itemSparepart').val();
-   const item = JSON.parse(itemValue);
+            row = $(row);
+            table.append(row);
+            var itemSparepart = [{
+                kode_barang: kode_barang,
+                nama_barang: nama_barang,
+                qty: 1,
+                harga_barang: harga_barang,
+                satuan_barang: satuan_barang,
+                subtotal: harga_barang,
+            }];
+            if ($('#itemSparepart').val() != '') {
+                var itemValue = $('#itemSparepart').val();
+                var item = JSON.parse(itemValue);
+                item.push({
+                    kode_barang: kode_barang,
+                    nama_barang: nama_barang,
+                    qty: 1,
+                    harga_barang: harga_barang,
+                    satuan_barang: satuan_barang,
+                    subtotal: harga_barang,
+                });
+                $('#itemSparepart').val(JSON.stringify(item));
+            } else {
+                $('#itemSparepart').val(JSON.stringify(itemSparepart));
+            }
 
-   $('#itemSparepart').val(JSON.stringify(item));
-   var price = $(this).closest('tr').find('td:nth-child(5)').text().replace(/[^\d.-]+/g, '').replace('.', '');
-   var subtotal = qty * price;
-   for(var i = 0; i < item.length; i++){
-       if(item[i].kode_barang == kode_barang){
-           item[i].qty = qty;
-           item[i].subtotal = formatRupiah(subtotal);
-       }
-   }
-   $('#itemSparepart').val(JSON.stringify(item));
-   $(this).closest('tr').find('td:nth-child(6)').text(formatRupiah(subtotal));
-   calculateTotal();
-   });
-   
-   function calculateTotal(){
-       var total = 0;
-       $('#tableSparepart tbody tr').each(function(){
-       var subtotal = $(this).find('td:nth-child(6)').text().replace(/[^\d.-]+/g, '').replace('.', '');
-       total += parseInt(subtotal);
-       });
-   
-       $('#tableSparepart tfoot tr td:nth-child(2)').text(formatRupiah(total));
-       $('#total').val(formatRupiah(total));
-       console.log($('#itemSparepart').val());
-   }
-   
-   function formatRupiah(val){
-       return new Intl.NumberFormat('id-ID', {
-               style: 'currency',
-               currency: 'IDR',
-               minimumFractionDigits: 0
-               }).format(val);
-   }
-   
-   $('#tableSparepart').on('click', '.btn-delete', function(){
-       var row = $(this).closest('tr');
-       var kode_barang = row.find('td:nth-child(2)').text();
-       var nama_barang = row.find('td:nth-child(3)').text();
-       var stok_barang = row.find('td:nth-child(4)').find('input').attr('max');
-       var harga_barang = row.find('td:nth-child(5)').text();
-       var satuan_barang = row.find('td:nth-child(6)').text();
-       var qty = row.find('td:nth-child(7)').text();
-       var subtotal = row.find('td:nth-child(8)').text();
-       var item = {
-           kode_barang: kode_barang,
-           nama_barang: nama_barang,
-           stok_barang: stok_barang,
-           harga_barang: harga_barang,
-           satuan_barang: satuan_barang,
-       };
-       var itemValue = $('#itemSparepart').val();
-       var itemSparepart = JSON.parse(itemValue);
-         for(var i = 0; i < itemSparepart.length; i++){
-              if(itemSparepart[i].kode_barang == kode_barang){
-                itemSparepart.splice(i, 1);
-              }
-         }
-        $('#itemSparepart').val(JSON.stringify(itemSparepart));
-   
-       dataSuggestion.push(item);
-       row.remove();
-       calculateTotal();
-   
-   });
 
-   $('#cancelTransaction').on('click', function(){
-         $('#tableSparepart tbody').empty();
-         $('#tableSparepart tfoot tr td:nth-child(2)').text('Rp 0');
-         $('#itemSparepart').val('');
-         $('#total').val('');
-         
+            $('#searchInput').val('');
+            calculateTotal();
+            showAutocompleteResults([]);
+        });
 
-         var inputCancel = '<input type="hidden" name="cancel" value="1">';
-         $('#formSaveTransaction').append(inputCancel);
-   });
+        $('#tableSparepart').on('change', '.qty', function() {
+            var qty = $(this).val();
+            var max = $(this).attr('max');
+            if (qty > max) {
+                $(this).val(max);
+                qty = max;
+            }
+            var kode_barang = $(this).closest('tr').find('td:nth-child(2)').text();
+            const itemValue = $('#itemSparepart').val();
+            const item = JSON.parse(itemValue);
 
-   
-   });
+            $('#itemSparepart').val(JSON.stringify(item));
+            var price = $(this).closest('tr').find('td:nth-child(5)').text().replace(/[^\d.-]+/g, '').replace('.', '');
+            var subtotal = qty * price;
+            for (var i = 0; i < item.length; i++) {
+                if (item[i].kode_barang == kode_barang) {
+                    item[i].qty = qty;
+                    item[i].subtotal = formatRupiah(subtotal);
+                }
+            }
+            $('#itemSparepart').val(JSON.stringify(item));
+            $(this).closest('tr').find('td:nth-child(6)').text(formatRupiah(subtotal));
+            calculateTotal();
+        });
+
+        function calculateTotal() {
+            var total = 0;
+            $('#tableSparepart tbody tr').each(function() {
+                var subtotal = $(this).find('td:nth-child(6)').text().replace(/[^\d.-]+/g, '').replace('.', '');
+                total += parseInt(subtotal);
+            });
+
+            $('#tableSparepart tfoot tr td:nth-child(2)').text(formatRupiah(total));
+            $('#total').val(formatRupiah(total));
+            console.log($('#itemSparepart').val());
+        }
+
+        function formatRupiah(val) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(val);
+        }
+
+        $('#tableSparepart').on('click', '.btn-delete', function() {
+            var row = $(this).closest('tr');
+            var kode_barang = row.find('td:nth-child(2)').text();
+            var nama_barang = row.find('td:nth-child(3)').text();
+            var stok_barang = row.find('td:nth-child(4)').find('input').attr('max');
+            var harga_barang = row.find('td:nth-child(5)').text();
+            var satuan_barang = row.find('td:nth-child(6)').text();
+            var qty = row.find('td:nth-child(7)').text();
+            var subtotal = row.find('td:nth-child(8)').text();
+            var item = {
+                kode_barang: kode_barang,
+                nama_barang: nama_barang,
+                stok_barang: stok_barang,
+                harga_barang: harga_barang,
+                satuan_barang: satuan_barang,
+            };
+            var itemValue = $('#itemSparepart').val();
+            var itemSparepart = JSON.parse(itemValue);
+            for (var i = 0; i < itemSparepart.length; i++) {
+                if (itemSparepart[i].kode_barang == kode_barang) {
+                    itemSparepart.splice(i, 1);
+                }
+            }
+            $('#itemSparepart').val(JSON.stringify(itemSparepart));
+
+            dataSuggestion.push(item);
+            row.remove();
+            calculateTotal();
+
+        });
+
+        $('#cancelTransaction').on('click', function() {
+            $('#tableSparepart tbody').empty();
+            $('#tableSparepart tfoot tr td:nth-child(2)').text('Rp 0');
+            $('#itemSparepart').val('');
+            $('#total').val('');
+
+
+            var inputCancel = '<input type="hidden" name="cancel" value="1">';
+            $('#formSaveTransaction').append(inputCancel);
+        });
+
+
+    });
 </script>
 @endpush

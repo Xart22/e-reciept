@@ -50,7 +50,6 @@ class StokBarangDataTable extends DataTable
             ->minifiedAjax()
             ->buttons([
                 Button::make('excel'),
-                Button::make('print')
             ]);
     }
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\TokoModelDataTable;
+use App\Models\LogModel;
 use App\Models\SettingModel;
 use App\Models\TokoModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class TokoController extends Controller
@@ -41,6 +43,12 @@ class TokoController extends Controller
         if ($request->default_toko) {
             SettingModel::firstOrNew(['toko_id' => $id])->save();
         }
+
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Menambahkan toko baru nama : ' . $request->nama_toko
+        ]);
+
         return redirect()->route('toko.create')->with('success', 'Data berhasil disimpan.');
     }
 
@@ -76,6 +84,15 @@ class TokoController extends Controller
         }
         $toko->update($data);
 
+        if ($request->defaultToko) {
+            SettingModel::find(1)->update(['toko_id' => $id]);
+        }
+
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Mengubah toko nama : ' . $request->nama_toko
+        ]);
+
         return redirect()->route('toko.create')->with('success', 'Data berhasil diubah.');
     }
 
@@ -88,6 +105,11 @@ class TokoController extends Controller
         Storage::delete('public/img/' . $toko->logo_toko);
         $toko->setting()->delete();
         $toko->delete();
+
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Menghapus toko nama : ' . $toko->nama_toko
+        ]);
 
 
         return redirect()->route('toko.create')->with('success', 'Data berhasil dihapus.');

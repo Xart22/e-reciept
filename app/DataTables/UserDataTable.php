@@ -48,8 +48,7 @@ class UserDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1)
-            ->buttons([]);
+            ->orderBy(1);
     }
 
     /**

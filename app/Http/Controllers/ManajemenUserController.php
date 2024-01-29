@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UserDataTable;
+use App\Models\LogModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManajemenUserController extends Controller
 {
@@ -32,7 +34,10 @@ class ManajemenUserController extends Controller
     {
         User::create($request->all());
 
-
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Menambahkan user baru username : ' . $request->username . ' role : ' . $request->role
+        ]);
         return redirect()->route('manajemen-user.index')
             ->with('success', 'User created successfully.');
     }
@@ -60,6 +65,11 @@ class ManajemenUserController extends Controller
     {
         User::find($id)->update($request->all());
 
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Mengubah user username : ' . $request->username . ' role : ' . $request->role
+        ]);
+
         return redirect()->route('manajemen-user.index')
             ->with('success', 'User updated successfully');
     }
@@ -69,6 +79,13 @@ class ManajemenUserController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = User::find($id);
+
+        LogModel::create([
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Menghapus user username : ' . $user->username . ' role : ' . $user->role
+        ]);
+
         User::destroy($id);
 
         return redirect()->route('manajemen-user.index')

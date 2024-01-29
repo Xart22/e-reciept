@@ -88,41 +88,22 @@
           </svg>Invoice</a></li> --}}
       @if (Auth::user()->role == 'Admin')
       <li class="nav-title">Sparepart</li>
-      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-          <svg class="nav-icon">
-            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
-          </svg>Sparepart</a>
-        <ul class="nav-group-items compact">
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('stok-barang.index')}}">
-              <span class="nav-icon">
-                <span class="nav-icon-bullet">
-                </span>
-              </span>
-              Stok Sparepart
-            </a>
-          </li>
-        </ul>
+      <li class="nav-item"><a class="nav-link" href="{{route('stok-barang.index')}}"><i
+            class="bi bi-projector-fill m-2"></i>
+          Stok Sparepart</a></li>
       </li>
       @endif
-      <li class="nav-title">Laporan</li>
-      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><svg class="nav-icon">
-            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
-          </svg>Laporan Penjualan</a></li>
+      <li class="nav-title">Laporan Penjualan</li>
+      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><i class="bi bi-receipt m-2"></i>Laporan by
+          Stok</a></li>
+      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><i class="bi bi-receipt m-2"></i> Laporan by
+          Penjualan</a></li>
       <li class="nav-title">Pengaturan</li>
       @if (Auth::user()->role == 'Admin')
-      <li class="nav-item"><a class="nav-link" href="{{route('manajemen-user.index')}}"><svg class="nav-icon">
-            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
-          </svg>User</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('manajemen-user.index')}}"><i
+            class="bi bi-people m-2"></i>User</a></li>
       @endif
-      <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-          <svg class="nav-icon">
-            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
-          </svg>Toko</a>
-        <ul class="nav-group-items compact">
-          <li class="nav-item"><a class="nav-link" href="{{route('toko.create')}}"><span class="nav-icon"><span
-                  class="nav-icon-bullet"></span></span>Buat Toko</a></li>
-        </ul>
+      <li class="nav-item"><a class="nav-link" href="{{route('toko.create')}}"><i class="bi bi-shop m-2"></i>Toko</a>
       </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">

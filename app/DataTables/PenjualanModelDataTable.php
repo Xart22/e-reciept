@@ -84,8 +84,7 @@ class PenjualanModelDataTable extends DataTable
             ])
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(1)
-            ->buttons([]);
+            ->orderBy(0);
     }
 
     /**

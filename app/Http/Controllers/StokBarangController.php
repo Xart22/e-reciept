@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\StokBarangModel;
 use Illuminate\Http\Request;
 use App\DataTables\StokBarangDataTable;
+use App\Models\LogModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class StokBarangController extends Controller
@@ -98,6 +100,10 @@ class StokBarangController extends Controller
         $stokBarang->stok_barang = $request->stok_barang;
         $stokBarang->harga_barang = $request->harga_barang;
         $stokBarang->save();
+        LogModel::create([
+            'user_id' => Auth::user()->id,
+            'aktivitas' => 'Mengubah data stok barang ' . $stokBarang->nama_barang,
+        ]);
 
         return redirect()->route('stok-barang.index')->with('success', 'Data berhasil diubah');
     }
@@ -109,6 +115,10 @@ class StokBarangController extends Controller
     {
         $stokBarang = StokBarangModel::find($id);
         $stokBarang->delete();
+        LogModel::create([
+            'user_id' => Auth::user()->id,
+            'aktivitas' => 'Menghapus data stok barang ' . $stokBarang->nama_barang,
+        ]);
 
         return redirect()->route('stok-barang.index')->with('success', 'Data berhasil dihapus');
     }

@@ -27,7 +27,7 @@
             text-decoration: none;
         }
 
-        body {
+        #wraper {
             background-color: white;
             /* width A4 */
             width: 21cm;
@@ -51,7 +51,7 @@
     <div id="wraper" class="p-3">
         {{-- Send url to electron --}}
         <input type="hidden" id="check-url-print" value=" {{ url()->current() }}">
-        <div class="d-flex justify-content-between rounded border border-1">
+        <div class="d-flex justify-content-between">
             <div class="col">
                 <div class=" d-flex p-2" style="width: 200px; height: 120px;">
                     <div class="mx-auto">
@@ -67,6 +67,7 @@
                 </h1>
             </div>
         </div>
+        <br>
         <hr>
         <div class="row">
             <div class="col">
@@ -74,7 +75,7 @@
                     <p>
                         Bill :
                     </p>
-                    <div class="border p-2 rounded">
+                    <div class=" p-2 rounded border-black border">
                         <p>
                             {{$data->nama_pelanggan}}
                             <br>
@@ -87,11 +88,11 @@
             <div class="col p-3">
                 <br>
                 <div class="row p-3">
-                    <div class="col border rounded">
+                    <div class="col rounded border-black border">
                         <p>Invoice Date :</p>
                         <p class="fw-bolder">{{date('d M Y', strtotime($data->tanggal))}}</p>
                     </div>
-                    <div class="col border rounded">
+                    <div class="col rounded border-black border">
                         <p>Invoice No :</p>
                         <p class="fw-bolder">{{$data->no_faktur}}</p>
                     </div>
@@ -103,13 +104,13 @@
                 <td style="
                     width: 73pt;
                     border-top-style: solid;
-                    border-top-width: 1pt;
+                    border-top-width: 2px;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s1" style="
                         padding-top: 8pt;
@@ -124,13 +125,13 @@
                 <td style="
                     width: 156pt;
                     border-top-style: solid;
-                    border-top-width: 1pt;
+                    border-top-width: 2px;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s1" style="
                         padding-top: 8pt;
@@ -144,13 +145,13 @@
                 <td style="
                     width: 58pt;
                     border-top-style: solid;
-                    border-top-width: 1pt;
+                    border-top-width: 2px;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s1" style="
                         padding-top: 8pt;
@@ -165,17 +166,17 @@
                 <td style="
                     width: 99pt;
                     border-top-style: solid;
-                    border-top-width: 1pt;
+                    border-top-width: 2px;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s1" style="
                         padding-top: 8pt;
-                        padding-left: 1pt;
+                        padding-left: 2px;
                         text-indent: 0pt;
                         text-align: left;
                     ">
@@ -185,17 +186,17 @@
                 <td style="
                     width: 173pt;
                     border-top-style: solid;
-                    border-top-width: 1pt;
+                    border-top-width: 2px;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s1" style="
                         padding-top: 8pt;
-                        padding-left: 41pt;
+                        padding-left: 42px;
                         text-indent: 0pt;
                         text-align: left;
                     ">
@@ -209,9 +210,9 @@
                     width: 73pt;
                     border-top-style: solid;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s2" style="
                         padding-left: 19pt;
@@ -227,9 +228,9 @@
                     border-top-style: solid;
           
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s2" style="
                         padding-left: 4pt;
@@ -244,9 +245,9 @@
                     border-top-style: solid;
      
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s2" style="text-indent: 0pt; text-align: center">
                         {{$item->jumlah}}
@@ -257,12 +258,12 @@
                     border-top-style: solid;
 
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s2" style="
-                        padding-right: 1pt;
+                        padding-right: 2px;
                         text-indent: 0pt;
                         text-align: right;
                     ">
@@ -274,12 +275,12 @@
                     border-top-style: solid;
    
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p class="s2" style="
-                        padding-right: 1pt;
+                        padding-right: 2px;
                         text-indent: 0pt;
                         text-align: right;
                     ">
@@ -293,55 +294,55 @@
                 <td style="
                     width: 73pt;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p style="text-indent: 0pt; text-align: left"><br /></p>
                 </td>
                 <td style="
                     width: 156pt;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p style="text-indent: 0pt; text-align: left"><br /></p>
                 </td>
                 <td style="
                     width: 58pt;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p style="text-indent: 0pt; text-align: left"><br /></p>
                 </td>
                 <td style="
                     width: 99pt;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p style="text-indent: 0pt; text-align: left"><br /></p>
                 </td>
                 <td style="
                     width: 173pt;
                     border-left-style: solid;
-                    border-left-width: 1pt;
+                    border-left-width: 2px;
                     border-bottom-style: solid;
-                    border-bottom-width: 1pt;
+                    border-bottom-width: 2px;
                     border-right-style: solid;
-                    border-right-width: 1pt;
+                    border-right-width: 2px;
                 ">
                     <p style="text-indent: 0pt; text-align: left"><br /></p>
                 </td>
@@ -350,24 +351,24 @@
         <br>
         <div class="row">
             <div class="col">
-                <div class="border rounded p-2">
+                <div class="rounded border-black border p-2">
                     <span class="fw-bolder">Say : </span><span>{{$data->total_harga}} </span>
                 </div>
             </div>
             <div class="col">
-                <div class="col border rounded p-2">
+                <div class="col rounded border-black border p-2">
                     <div class="d-flex justify-content-between">
                         <div class="fw-bolder">Sub total :</div>
                         <div class="fw-bolder">{{$data->total_harga}}</div>
                     </div>
                 </div>
-                <div class="col border rounded p-2">
+                <div class="col rounded border-black border p-2">
                     <div class="d-flex justify-content-between">
                         <div class="fw-bolder">Discount :</div>
                         <div class="fw-bolder">0</div>
                     </div>
                 </div>
-                <div class="col border rounded p-2">
+                <div class="col rounded border-black border p-2">
                     <div class="d-flex justify-content-between">
                         <div class="fw-bolder">Total Invoice :</div>
                         <div class="fw-bolder">{{$data->total_harga}}</div>

@@ -12,54 +12,101 @@
         th,
         td {
             border: 1px solid black;
-            font-weight: 800;
         }
+
+        #wraper {
+            background-color: white;
+            /* width A4 */
+            width: 21cm;
+            height: 29.7cm;
+            border: 1px solid black;
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            text-decoration: none;
+        }
+
+        h1 {
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 15pt;
+        }
+
+        p {
+            color: black;
+            font-family: Tahoma, sans-serif;
+            font-style: normal;
+            text-decoration: none;
+            font-size: 8pt;
+        }
+
 
         @media print {
             .btn {
                 display: none;
-
             }
 
-            body {
-                font-size: 12px;
-                background-color: white;
-            }
         }
     </style>
 </head>
 
 <body>
-    <div id="wraper">
+    <div id="wraper" class="p-3">
         {{-- Send url to electron --}}
         <input type="hidden" id="check-url-print" value=" {{ url()->current() }}">
-        <img src="{{ asset('storage/img/' . $data->toko->logo_toko) }}" width="150px">
-        <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
-        <hr>
+        <div class="row">
+            <div class="col"> <img src="{{ asset('storage/img/' . $data->toko->logo_toko) }}" width="100px">
+                <p>{{$data->toko->alamat_toko}} <br>Telp/Fax. {{$data->toko->telepon_toko}}</p>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <h1 class="fw-bolder text-center">FORMULIR TANDA TERIMA SERVIS</h1>
+                </div>
+            </div>
+            <hr>
+        </div>
 
-        <h1 class="text-center fw-bolder">FORMULIR TANDA TERIMA SERVIS</h1>
-        <br>
+
         <p class="fw-bolder">No. {{$data->no_faktur}}</p>
 
-        <table>
+        <table style="border-collapse: collapse;" cellspacing="0">
             <tr>
-                <td class="py-1 px-2" colspan="2">Tanggal : <br>{{$data->tanggal}}</td>
-                <td class=" py-1 px-2" rowspan="1">Waktu : <br>{{$data->waktu}}</td>
+                <td class="py-1 px-2" colspan="2">
+                    <p>Tanggal : <br>{{$data->tanggal}}</p>
+                </td>
+                <td class=" py-1 px-2" rowspan="1">
+                    <p>Waktu : <br>{{$data->waktu}}</p>
+                </td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI KONSUMEN</td>
             </tr>
             <tr>
-                <td class="py-1 px-2" colspan="2">Nama : <br>{{$data->nama_pelanggan}}</td>
-                <td class="py-1 px-2" rowspan="1">Nama Perusahaan : <br>{{$data->nama_perusahaan}}</td>
+                <td class="py-1 px-2" colspan="2">
+                    <p>Nama : <br>{{$data->nama_pelanggan}}</p>
+                </td>
+                <td class="py-1 px-2" rowspan="1">
+                    <p>Nama Perusahaan : <br>{{$data->nama_perusahaan}}</p>
+                </td>
             </tr>
             <tr>
-                <td class="py-1 px-2">Telpon : <br>{{$data->telepon_pelanggan}}</td>
-                <td class="py-1 px-2">Telpon Seluler : <br>{{$data->telepon_seluler}}</td>
-                <td class="py-1 px-2" rowspan="2">Alamat: <br>{{$data->alamat_pelanggan}}</td>
+                <td class="py-1 px-2">
+                    <p>Telpon : <br>{{$data->telepon_pelanggan}}</p>
+                </td>
+                <td class="py-1 px-2">
+                    <p>Telpon Seluler : <br>{{$data->telepon_seluler}}</p>
+                </td>
+                <td class="py-1 px-2" rowspan="2">
+                    <p>Alamat: <br>{{$data->alamat_pelanggan}}</p>
+                </td>
             </tr>
             <tr>
-                <td colspan="2" class="py-1 px-2">Email: <br> {{$data->email_pelanggan}}</td>
+                <td colspan="2" class="py-1 px-2">
+                    <p>Email: <br> {{$data->email_pelanggan}}</p>
+                </td>
             </tr>
             <tr>
                 <td colspan="3" class="text-center">INFORMASI BARANG</td>
@@ -69,7 +116,9 @@
                     <p>Spesifikasi : <br>{{$data->item}}</p>
                     <p>Kelengkapan : <br>{{$data->kelengkapan}}</p>
                 </td>
-                <td class="px-2 text-start text-wrap" rowspan="1">Keluhan : <br>{{$data->keluhan}}</td>
+                <td class="px-2 text-start text-wrap" rowspan="1">
+                    <p>Keluhan : <br>{{$data->keluhan}}</p>
+                </td>
             </tr>
             <tr>
                 <td class="text-center" colspan="2">ATURAN DAN SYARAT</td>
@@ -77,7 +126,7 @@
             </tr>
             <tr>
                 <td class="py-1 px-2" colspan="2">
-                    <div style="width: 50vw; height: 50%;">
+                    <p style="text-align: justify;">
                         1. {{$data->toko->nama_toko}} tidak bertanggung jawab atas segala resiko kehilangan atau
                         kerusakan data yang ada didalamnya.<br>
                         2. Untuk service diluar garansi, persetujuan konsumen dibutuhkan dalam waktu 3 hari kerja
@@ -91,25 +140,24 @@
                         5. Jika barang yang telah diperbaiki tidak diambil dalam jangka waktu (3) bulan maka
                         {{$data->toko->nama_toko}} tidak bertanggung jawab terhadap resiko kehilangan atau kerusakan
                         barangnya.<br>
-                    </div>
-                    <br><br>
+                    </p>
                     <div>
                         <p class="text-center">DITERIMA OLEH</p>
-                        <br><br><br><br> <br>
+                        <br><br>
                         <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>{{$data->userCreate->username}}</span>
                             &nbsp;&nbsp;&nbsp;) </p>
                     </div>
                 </td>
                 <td class="py-1 px-2">
-                    <div style="height: 50%;">
+                    <p>
                         Saya memberikan izin kepada {{$data->toko->nama_toko}}, Untk memperbaiki barang dengan
                         Spesifikasi yang disebutkan diatas. Saya menyatakan bahwa semua informasi yang Saya berikan
                         adalah benar adanya. Saya menyetujui aturan dan syarat yang diberikan.
 
-                    </div>
+                    </p>
                     <br><br><br><br><br><br><br><br>
                     <p class=" text-center">TANDA TANGAN KONSUMEN</p>
-                    <br><br><br><br> <br>
+                    <br><br>
                     <p class="text-center">(&nbsp;&nbsp;&nbsp; <span>{{$data->nama_pelanggan}}</span>
                         &nbsp;&nbsp;&nbsp;)
                     </p>
@@ -154,7 +202,7 @@
         if (isElectronApp) {
             
         } else {
-            window.print()
+            //window.print()
             document.querySelector('#cetak').addEventListener('click', () => {
                 window.print();
 

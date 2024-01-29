@@ -86,7 +86,7 @@
                         </form>
                     </div>
                     <br />
-                    <div class="table-responsive">
+                    <div style="overflow: auto;max-height: 80vh;padding: 10px;">
                         {{ $dataTable->table() }}
                     </div>
                 </div>
@@ -124,7 +124,6 @@
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 <script type="module">
     $(document).ready(async function() {
-        $(".dt-buttons").hide();
         $("#btnUpdate").hide();
         $("#btnCancel").hide();
 

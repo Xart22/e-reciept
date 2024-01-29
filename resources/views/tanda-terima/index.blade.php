@@ -7,7 +7,7 @@
                     Data Sercice
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div style="overflow: auto;max-height: 80vh;padding: 10px;">
                         {{ $dataTable->table() }}
                     </div>
                 </div>
