@@ -51,7 +51,7 @@ class TandaTerimaController extends Controller
         $data['created_by'] = Auth::user()->id;
         $id = PenjualanModel::create($data)->id;
         LogModel::create([
-            'user_id' => Auth::user()->id,
+            'id_user' => Auth::user()->id,
             'aktivitas' => 'Menambahkan data penjualan dengan no faktur ' . $request->no_faktur,
         ]);
         if ($request->cetak_faktur == '1') {
@@ -85,7 +85,12 @@ class TandaTerimaController extends Controller
     public function update(Request $request, string $id)
     {
         if ($request->cancel == "1") {
-            PenjualanModel::where('id', $id)->update(['keterangan_service' => $request->keterangan_service, 'status_service' => 'Cancel', 'updated_by' => Auth::user()->id]);
+            PenjualanModel::where('id', $id)->update(['keterangan_service' => $request->keterangan_service, 'status_service' => 'Cancel', 'updated_by' => Auth::user()->id, 'status_pengambilan' => 'Belum Diambil']);
+            LogModel::create([
+                'id_user' => Auth::user()->id,
+                'aktivitas' => 'Mengubah status service penjualan dengan no faktur ' . PenjualanModel::where('id', $id)->first()->no_faktur . ' menjadi cancel',
+            ]);
+
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
         }
         $item_sparepart = json_decode($request->item_sparepart, true);
@@ -112,7 +117,7 @@ class TandaTerimaController extends Controller
             ]);
         }
         LogModel::create([
-            'user_id' => Auth::user()->id,
+            'id_user' => Auth::user()->id,
             'aktivitas' => 'Mengubah data penjualan dengan no faktur ' . $no_faktur,
         ]);
         if ($request->cetak_faktur == '1') {
@@ -129,7 +134,7 @@ class TandaTerimaController extends Controller
         $data = PenjualanModel::findOrFail($id);
         $data->delete();
         LogModel::create([
-            'user_id' => Auth::user()->id,
+            'id_user' => Auth::user()->id,
             'aktivitas' => 'Menghapus data penjualan dengan no faktur ' . $data->no_faktur,
         ]);
         return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil dihapus.');
@@ -148,10 +153,10 @@ class TandaTerimaController extends Controller
     {
         PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Sudah Diambil']);
         LogModel::create([
-            'user_id' => Auth::user()->id,
-            'aktivitas' => 'Mengubah status pengambilan penjualan dengan no faktur ' . PenjualanModel::where('id', $id)->first()->no_faktur,
+            'id_user' => Auth::user()->id,
+            'aktivitas' => 'Mengubah status pengambilan barang dengan no faktur ' . PenjualanModel::where('id', $id)->first()->no_faktur,
         ]);
-        return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
+        return redirect()->route('tanda-terima.show', $id)->with('success', 'Status pengambilan berhasil diupdate.');
     }
 
     public function cetakInvoice($id)

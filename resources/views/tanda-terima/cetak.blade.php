@@ -49,6 +49,17 @@
                 display: none;
             }
 
+            #wraper {
+                background-color: white;
+                border: 1px solid black;
+                color: black;
+                font-family: Tahoma, sans-serif;
+                font-style: normal;
+                text-decoration: none;
+                margin: 0;
+                padding: 0;
+            }
+
         }
     </style>
 </head>
@@ -200,19 +211,13 @@
         }
         const isElectronApp = isElectron();
         if (isElectronApp) {
+            window.print();
+            window.addEventListener("afterprint", (event) => {
+            window.close();
+            });
             
         } else {
-            //window.print()
-            document.querySelector('#cetak').addEventListener('click', () => {
-                window.print();
-
-            });
-            document.querySelector('#back').addEventListener('click', () => {
-                let url = "{{ route('tanda-terima.create') }}";
-
-                window.location.href = url;
-
-            });
+            window.print()
             window.addEventListener("afterprint", (event) => {
             window.close();
             });

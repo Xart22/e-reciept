@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('stok-barang', App\Http\Controllers\StokBarangController::class);
     Route::resource('tanda-terima', App\Http\Controllers\TandaTerimaController::class);
+    Route::get('penjualan-update-pengambilan/{id}', [App\Http\Controllers\TandaTerimaController::class, 'updateStatusPengambilan'])->name('tanda-terima.update-pengambilan');
     Route::resource('toko', App\Http\Controllers\TokoController::class);
     Route::resource('manajemen-user', App\Http\Controllers\ManajemenUserController::class);
 });

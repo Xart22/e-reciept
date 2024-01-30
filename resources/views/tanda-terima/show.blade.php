@@ -145,12 +145,18 @@
                                     </tfoot>
                                 </table>
                                 <div class="row">
+                                    @if($data->status_pengambilan == 'Belum Diambil')
                                     <div class="col">
 
-                                        <a href="{{route('tanda-terima.cetak-invoice',$data->id)}}"
+                                        <a href="{{route('tanda-terima.update-pengambilan',$data->id)}}"
                                             class="btn btn-success w-100">Barang Sudah
                                             Diambil</a>
 
+                                    </div>
+                                    @endif
+                                    <div class="col">
+                                        <button data-url="{{route('tanda-terima.cetak-invoice',$data->id)}}"
+                                            class="btn btn-dark w-100" id="cetakInvoice">Cetak Invoice</button>
                                     </div>
                                 </div>
                             </div>
