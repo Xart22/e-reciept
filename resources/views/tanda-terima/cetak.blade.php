@@ -60,6 +60,10 @@
                 padding: 0;
             }
 
+            #wraper-btn {
+                display: none;
+            }
+
         }
     </style>
 </head>
@@ -176,7 +180,7 @@
             </tr>
         </table>
     </div>
-    <div class="container mt-3 mb-3">
+    <div class="container mt-3 mb-3" id="wraper-btn">
         <div class="row">
             <div class="col">
                 <button type="button" class="btn btn-success w-100" id="cetak">Cetak</button>
@@ -190,6 +194,9 @@
 
     <script>
         window.addEventListener('load', () => {
+            const back = $('#back');
+            const cetak = $('#cetak');
+            const url ="{{ route('tanda-terima.index') }}";
 
          function isElectron() {
                 // Renderer process
@@ -211,15 +218,14 @@
         }
         const isElectronApp = isElectron();
         if (isElectronApp) {
-            window.print();
-            window.addEventListener("afterprint", (event) => {
-            window.close();
-            });
-            
+
         } else {
             window.print()
-            window.addEventListener("afterprint", (event) => {
-            window.close();
+            cetak.on('click', () => {
+                window.print();
+            });
+            back.on('click', () => {
+                window.location.href = url;
             });
         }
         })

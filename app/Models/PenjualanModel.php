@@ -28,6 +28,11 @@ class PenjualanModel extends Model
 
     public function sparePart()
     {
-        return $this->hasMany(PenjualanSparePartModel::class, 'no_faktur', 'no_faktur');
+        return $this->hasMany(PenjualanSparePartModel::class, 'no_faktur', 'no_faktur')->with('userCreate');
+    }
+
+    function log()
+    {
+        return $this->hasMany(LogServiceModel::class, 'no_faktur', 'no_faktur')->with('userCreate');
     }
 }

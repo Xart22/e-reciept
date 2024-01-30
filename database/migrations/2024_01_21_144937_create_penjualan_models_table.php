@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('item');
             $table->longText('kelengkapan');
             $table->longText('keluhan');
-            $table->longText('keterangan_service')->nullable();
             $table->string('status_service')->default('Proses');
             $table->string('status_pengambilan')->default('-');
             $table->bigInteger('updated_by')->nullable();

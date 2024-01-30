@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penjualan_sparepart', function (Blueprint $table) {
-            $table->string('no_faktur');
+        Schema::create('stok_barang_log', function (Blueprint $table) {
+            $table->date('tanggal');
             $table->string('kode_barang');
-            $table->string('nama_barang');
-            $table->bigInteger('jumlah');
-            $table->string('harga');
-            $table->string('subtotal');
+            $table->string('no_faktur')->nullable();
+            $table->string('vendor')->nullable();
+            $table->bigInteger('in')->nullable();
+            $table->bigInteger('out')->nullable();
+            $table->bigInteger('saldo');
+            $table->longText('keterangan')->nullable();
             $table->bigInteger('created_by');
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penjualan_sparepart');
+        Schema::dropIfExists('stock_barang_log');
     }
 };

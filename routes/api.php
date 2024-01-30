@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\StokBarangController;
+use App\Http\Controllers\TandaTerimaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get-stock-barang', [App\Http\Controllers\StokBarangController::class, 'dataTable'])->name('get-stock-barang-data-table');
+Route::post('/get-stock-barang', [StokBarangController::class, 'getStockBarang'])->name('get-stock-barang');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TandaTerimaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('stok-barang', App\Http\Controllers\StokBarangController::class);
     Route::resource('tanda-terima', App\Http\Controllers\TandaTerimaController::class);
     Route::get('penjualan-update-pengambilan/{id}', [App\Http\Controllers\TandaTerimaController::class, 'updateStatusPengambilan'])->name('tanda-terima.update-pengambilan');
+    Route::delete('/delete-item-penjualan/{no_faktur}/{kode_barang}', [TandaTerimaController::class, 'deleteItemPenjualan'])->name('delete-item-penjualan');
     Route::resource('toko', App\Http\Controllers\TokoController::class);
     Route::resource('manajemen-user', App\Http\Controllers\ManajemenUserController::class);
 });

@@ -45,7 +45,7 @@
                         <label for="namaKonsumen" class="form-label">Nama</label>
                         <input type="text" class="form-control" id="namaKonsumen" required autocomplete="off"
                             name="nama_pelanggan">
-
+                        <div id="autocompleteResults" class="list-group" style="width: 30vw;"></div>
                     </div>
                     <div class="col-md-6">
                         <label for="namaPerusahaan" class="form-label">Nama Perusahaan</label>
@@ -155,6 +155,67 @@
                 if (char > 31 && (char < 48 || char > 57)) return false;
                 return true;
             });
+
+        // Data contoh untuk autocomplete
+        var dataSuggestion = {!!$pelanggan!!};
+        $(document).keyup(function(e) {
+            if (e.key === "Escape") {
+                $('#autocompleteResults').hide();
+            }
+        });
+
+
+        // Fungsi untuk menampilkan hasil autocomplete
+        function showAutocompleteResults(results) {
+
+            var resultList = $('#autocompleteResults');
+            resultList.empty();
+
+            for (var i = 0; i < results.length; i++) {
+            console.log(results[i]);
+            resultList.append(`<a  class="list-group-item list-group-item-action" data-nama_pelanggan="${results[i].nama_pelanggan}" data-nama_perusahaan="${results[i].nama_perusahaan}" data-alamat_pelanggan="${results[i].alamat_pelanggan}" data-telepon_pelanggan="${results[i].telepon_pelanggan}" data-email_pelanggan="${results[i].email_pelanggan}">${results[i].nama_pelanggan} | ${results[i].nama_perusahaan} | ${results[i].telepon_pelanggan}</a>`);
+                
+            }
+            resultList.show();
+        }
+
+        $('#namaKonsumen').on('click', function() {
+
+            showAutocompleteResults(dataSuggestion);
+
+        });
+
+        // Fungsi untuk melakukan pencarian autocomplete
+        $('#namaKonsumen').on('input', function() {
+            var inputText = $(this).val().toLowerCase();
+            var results = [];
+
+            if (inputText.length > 0) {
+                results = dataSuggestion.filter(function(item) {
+                    return item.nama_pelanggan.toLowerCase().includes(inputText);
+                });
+            }
+
+            showAutocompleteResults(results);
+        });
+
+
+        $('#autocompleteResults').on('click', 'a', function() {
+            const nama_pelanggan = $(this).data('nama_pelanggan');
+            const nama_perusahaan = $(this).data('nama_perusahaan');
+            const alamat_pelanggan = $(this).data('alamat_pelanggan');
+            const telepon_pelanggan = $(this).data('telepon_pelanggan');
+            const email_pelanggan = $(this).data('email_pelanggan');
+
+            $('#namaKonsumen').val(nama_pelanggan);
+            $('#namaPerusahaan').val(nama_perusahaan);
+            $('#alamatKonsumen').val(alamat_pelanggan);
+            $('#telponKonsumen').val(telepon_pelanggan);
+            $('#telponSeluler').val(telepon_pelanggan);
+            $('#emailKonsumen').val(email_pelanggan);
+            $('#autocompleteResults').hide();
+
+        });
 
 
     });

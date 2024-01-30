@@ -106,10 +106,32 @@
 
                             <div class="row mb-3">
                                 <div class="col">
-                                    <div class="mb-3">
-                                        <label for="keteranganService" class="form-label">Keterangan Servis</label>
-                                        <textarea class="form-control" id="keteranganService" rows="5"
-                                            name="keterangan_service" disabled>{{$data->keterangan_service}}</textarea>
+                                    <div class="col">
+                                        <div class="border-bottom text-center">
+                                            <strong>History SERVICE</strong>
+                                        </div>
+                                        <div style="max-height: 400px; overflow-y: auto; min-height: 360px;">
+                                            <section class="py-5">
+                                                <ul class="timeline">
+                                                    @if(count($data->log) != 0)
+                                                    @foreach ($data->log as $item)
+                                                    <li class="timeline-item mb-5">
+                                                        <h5 class="fw-bold">{{$item->userCreate->username}}</h5>
+                                                        <p class="text-muted mb-2 fw-bold">{{$item->created_at}}</p>
+                                                        <p class="text-muted">
+                                                            {{$item->keterangan}}
+                                                        </p>
+                                                    </li>
+                                                    @endforeach
+                                                    @else
+                                                    <li class="timeline-item mb-5">
+                                                        <h5 class="fw-bold">Belum ada history</h5>
+                                                    </li>
+                                                    @endif
+                                                </ul>
+                                            </section>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -167,6 +189,15 @@
         </div>
     </div>
 </div>
-</div>
-</div>
 @endsection
+@push("scripts")
+<script type="module">
+    $(document).ready(function () {
+    $('#cetakInvoice').on('click', function () {
+        const url = $(this).data('url');
+
+        window.location.href = url;
+    });
+});
+</script>
+@endpush

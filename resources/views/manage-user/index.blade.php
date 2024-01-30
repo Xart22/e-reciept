@@ -43,6 +43,8 @@
                                 <select class="form-select" name="role" id="role">
                                     <option value="Admin" selected>Admin</option>
                                     <option value="Kasir">Kasir</option>
+                                    <option value="Teknisi">Teknisi</option>
+                                    <option value="User">User</option>
                                 </select>
                             </div>
 

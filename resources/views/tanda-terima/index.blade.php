@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    Data Sercice
+                    Data Service
                 </div>
                 <div class="card-body">
                     <div style="overflow: auto;max-height: 80vh;padding: 10px;">

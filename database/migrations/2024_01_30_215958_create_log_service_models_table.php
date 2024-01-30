@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penjualan_sparepart', function (Blueprint $table) {
+        Schema::create('log_service', function (Blueprint $table) {
             $table->string('no_faktur');
-            $table->string('kode_barang');
-            $table->string('nama_barang');
-            $table->bigInteger('jumlah');
-            $table->string('harga');
-            $table->string('subtotal');
+            $table->longText('keterangan');
             $table->bigInteger('created_by');
             $table->timestamps();
         });
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penjualan_sparepart');
+        Schema::dropIfExists('log_service');
     }
 };

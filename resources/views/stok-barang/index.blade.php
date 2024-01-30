@@ -70,15 +70,42 @@
                                 </div>
                                 @endif
                             </div>
-                            <div class="col-12">
-                                <label for="hargaBarang" class="form-label">Harga</label>
-                                <input type="text" class="form-control" id="hargaBarang" required name="harga_barang"
-                                    value="{{old('harga_barang')}}" autocomplete="off">
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('harga_barang') }}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="vendor" class="form-label">Nama Vendor</label>
+                                    <input type="text" class="form-control" id="vendor" required
+                                        style="text-transform:uppercase" name="vendor" value="{{old('vendor')}}"
+                                        autocomplete="off">
+                                    @if ($errors->has('vendor'))
+                                    <script>
+                                        const kodeBarang = document.getElementById('stok_barang');
+                                        kodeBarang.classList.add('is-invalid');
+                                    </script>
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('stok_barang') }}
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="col-6">
+                                    <label for="hargaBarang" class="form-label">Harga</label>
+                                    <input type="text" class="form-control" id="hargaBarang" required
+                                        name="harga_barang" value="{{old('harga_barang')}}" autocomplete="off">
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('harga_barang') }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="keteranganBarang" class="form-label">Keterangan</label>
+                                        <textarea class="form-control" id="keteranganBarang" rows="4"
+                                            name="keterangan"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
                                 <button class="btn btn-primary w-100" type="submit" id="btnCreate">Simpan</button>
                                 <button class="btn btn-warning w-100 mb-2" type="submit" id="btnUpdate">Update</button>
                                 <button class="btn btn-danger w-100" type="button" id="btnCancel">Cancel</button>
