@@ -48,11 +48,10 @@ class HomeController extends Controller
         $pendapatan_bulan_ini = PenjualanModel::whereMonth('tanggal', date('m'))->where('status_service', '!=', 'Cancel')->whereYear('tanggal', date('Y'))->get();
         $total_pendapatan_bulan_ini = 0;
         foreach ($pendapatan_bulan_ini as $penjualan) {
-            if ($penjualan->status_service != 'Proses') {
+            if ($penjualan->status_service != 'Proses' && $penjualan->status_service != 'Cancel') {
                 $total = preg_match_all('/\d+/', $penjualan->total_harga, $matches);
                 $total = implode('', $matches[0]);
-                $total_pendapatan_bulan_ini += intval($total);
-                $total_pendapatan_bulan_ini = "Rp " . number_format($total_pendapatan_bulan_ini, 0, ',', '.');
+                $total_pendapatan_bulan_ini += (int) $total;
             }
         }
         //bandingkan dengan bulan lalu
@@ -61,9 +60,14 @@ class HomeController extends Controller
             ->whereYear('tanggal', date('Y'))->get();
         $total_pendapatan_bulan_lalu = 0;
         foreach ($pendapatan_bulan_lalu as $penjualan) {
-            $total = preg_match_all('/\d+/', $penjualan->total_harga, $matches);
-            $total = implode('', $matches[0]);
-            $total_pendapatan_bulan_ini = "Rp " . number_format($total_pendapatan_bulan_lalu, 0, ',', '.');
+            if ($penjualan->status_service != 'Proses' && $penjualan->status_service != 'Cancel') {
+                $total = preg_match_all('/\d+/', $penjualan->total_harga, $matches);
+                $total = implode('', $matches[0]);
+                if ($total != 0) {
+
+                    $total_pendapatan_bulan_lalu += (int) $total;
+                }
+            }
         }
 
         $stok_sparepart_kritis = StokBarangModel::where('stok_barang', '<=', 5)->count();

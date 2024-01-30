@@ -60,7 +60,7 @@
                 <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                     <div>
                         <div class="fs-4 fw-semibold">
-                            {{$total_pendapatan_bulan_ini}}
+                            <span id="pendapatan"> {{$total_pendapatan_bulan_ini}}</span>
                             @if ($total_pendapatan_bulan_ini > $total_pendapatan_bulan_lalu)
                             <span class="fs-6 fw-normal">(+{{$persentase_pendapatan}}%
                                 <svg class="icon">
@@ -111,4 +111,18 @@
 @endsection
 @push('scripts')
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+<script type="module">
+    $(document).ready(function () {
+      const pendapatan = $('#pendapatan').text();
+      $('#pendapatan').text(formatRupiah(pendapatan));
+    });
+
+    function formatRupiah(val) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(val);
+        }
+</script>
 @endpush

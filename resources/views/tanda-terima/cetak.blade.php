@@ -74,7 +74,7 @@
             </div>
             <div class="col">
                 <div class="d-flex justify-content-center">
-                    <h1 class="fw-bolder text-center">FORMULIR TANDA TERIMA SERVIS</h1>
+                    <h1 class="fw-bolder text-center">FORMULIR TANDA TERIMA SERVICE</h1>
                 </div>
             </div>
             <hr>
