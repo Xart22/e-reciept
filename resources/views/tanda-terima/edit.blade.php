@@ -154,7 +154,7 @@
                         </div>
                         <div class="container mb-3 wraper-search">
                             <div class="form-group">
-                                <label for="searchInput">Cari Sparepart:</label>
+                                <label for="searchInput">Cari Barang:</label>
                                 <input type="text" class="form-control" id="searchInput" autocomplete="off">
                             </div>
                             <div id="autocompleteResults" class="list-group"></div>
@@ -165,8 +165,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">Kode Sparepart</th>
-                                        <th scope="col">Nama Sparepart</th>
+                                        <th scope="col">Kode Barang</th>
+                                        <th scope="col">Nama Barang</th>
                                         <th scope="col">Jumlah</th>
                                         <th scope="col">Harga</th>
                                         <th scope="col">Subtotal</th>
@@ -226,9 +226,6 @@
                                 <input type="hidden" name="item_sparepart" id="itemSparepart">
                                 <input type="hidden" name="total" id="total">
                                 <button type="submit" class="btn btn-success w-100">Simpan Transaksi</button>
-                            </div>
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary w-100">Selesaikan Transaksi</button>
                             </div>
                         </div>
                     </div>

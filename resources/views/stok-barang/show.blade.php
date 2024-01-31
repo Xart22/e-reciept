@@ -119,11 +119,12 @@
                                         <th scope="col">In</th>
                                         <th scope="col">Out</th>
                                         <th scope="col">Qty</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-body">
                                     <tr>
-                                        <td colspan="7" class="text-center">Tidak ada data</td>
+                                        <td colspan="8" class="text-center">Tidak ada data</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -174,7 +175,7 @@
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result);
+        const urlDetail = "{{ route('tanda-terima.show', ':id') }}";
         if(result.length > 0){
             $('#table-body').empty();
             result.forEach((item, index) => {
@@ -187,6 +188,9 @@
                         <td>${item.in == null ? '0' : item.in}</td>
                         <td>${item.out == null ? '0' : item.out}</td>
                         <td>${item.saldo}</td>
+                        <td>
+                            <button data-url="${urlDetail.replace(':id',item.no_faktur)}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
+                        </td>
                     </tr>
                 `);
             });
@@ -194,12 +198,44 @@
             $('#table-body').empty();
             $('#table-body').append(`
                 <tr>
-                    <td colspan="7" class="text-center">Tidak ada data</td>
+                    <td colspan="8" class="text-center">Tidak ada data</td>
                 </tr>
             `);
         }
 
+        function isElectron() {
+                // Renderer process
+                if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+                    return true;
+                }
+
+                // Main process
+                if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+                    return true;
+                }
+
+                // Detect the user agent when the `nodeIntegration` option is set to true
+                if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+                    return true;
+                }
+
+                return false;
+        }
+        const isElectronApp = isElectron();
+
+        if (isElectronApp) {
+            $('#table-body').find("button").click(function(){
+                const url = $(this).data('url');
+                window.location.href = url;
+            });
+        } else {
+            $('#table-body').find("button").click(function(){
+                const url = $(this).data('url');
+                window.open(url, '_blank');
+            });
+        }
    }
+
 
 </script>
 

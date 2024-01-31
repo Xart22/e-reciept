@@ -68,10 +68,12 @@
           </svg> Dashboard</a>
       </li>
       <li class="nav-title">Faktur</li>
+      @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Kasir' || Auth::user()->role == 'User')
       <li class="nav-item"><a class="nav-link" href="{{route('tanda-terima.create')}}">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Buat Tanda Terima</a></li>
+      @endif
       <li class="nav-item"><a class="nav-link" href="{{route('tanda-terima.index')}}">
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
@@ -80,18 +82,32 @@
           <svg class="nav-icon">
             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-pencil') }}"></use>
           </svg>Invoice</a></li> --}}
-      @if (Auth::user()->role == 'Admin')
-      <li class="nav-title">Sparepart</li>
+      @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Kasir')
+      <li class="nav-title">Barang</li>
       <li class="nav-item"><a class="nav-link" href="{{route('stok-barang.index')}}"><i
             class="bi bi-projector-fill m-2"></i>
-          Stok Sparepart</a></li>
+          Stok Barang</a></li>
       </li>
       @endif
+      @if (Auth::user()->role == 'Admin')
       <li class="nav-title">Laporan Penjualan</li>
-      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><i class="bi bi-receipt m-2"></i>Laporan by
-          Stok</a></li>
-      <li class="nav-item"><a class="nav-link" href="base/accordion.html"><i class="bi bi-receipt m-2"></i> Laporan by
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-barang')}}"><i
+            class="bi bi-receipt m-2"></i>Laporan by
+          Barang</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-toko')}}"><i class="bi bi-receipt m-2"></i>
+          Laporan by
+          Toko</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-penjualan')}}"><i
+            class="bi bi-receipt m-2"></i> Laporan by
           Penjualan</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-user')}}"><i class="bi bi-receipt m-2"></i>
+          Laporan by
+          Pengguna</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-pelanggan')}}"><i
+            class="bi bi-receipt m-2"></i> Laporan by
+          Pelanggan</a></li>
+      @endif
+      @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Kasir')
       <li class="nav-title">Pengaturan</li>
       @if (Auth::user()->role == 'Admin')
       <li class="nav-item"><a class="nav-link" href="{{route('manajemen-user.index')}}"><i
@@ -99,6 +115,7 @@
       @endif
       <li class="nav-item"><a class="nav-link" href="{{route('toko.create')}}"><i class="bi bi-shop m-2"></i>Toko</a>
       </li>
+      @endif
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
       <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>

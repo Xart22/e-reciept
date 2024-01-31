@@ -34,6 +34,7 @@ class StokBarangDataTable extends DataTable
                 } else if (Auth::user()->role == 'Kasir') {
                     return '<div class="container">
                     <button  class="btn btn-warning btn-edit me-1" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Edit" data-id="' . $data->id . '" data-kode_barang="' . $data->kode_barang . '" data-kode_barang="' . $data->kode_barang . '" data-nama_barang="' . $data->nama_barang . '" data-satuan_barang="' . $data->satuan_barang . '" data-harga_barang="' . $data->harga_barang . '" data-stok_barang="' . $data->stok_barang . '"> <i class="bi bi-pencil-square"></i></button>
+                    <a  class="btn btn-primary btn-detail me-1" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" href="' . route('stok-barang.show', $data->kode_barang) . '"> <i class="bi bi-eye"></i></a>
                 </div>';
                 }
             });

@@ -193,11 +193,36 @@
 @push("scripts")
 <script type="module">
     $(document).ready(function () {
-    $('#cetakInvoice').on('click', function () {
-        const url = $(this).data('url');
+        const isElectronApp = isElectron();
+        if (isElectronApp) {
 
+        } else {
+            $('#cetakInvoice').on('click', function () {
+        const url = $(this).data('url');
         window.location.href = url;
     });
+        }
+        })
+
+    function isElectron() {
+                // Renderer process
+                if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+                    return true;
+                }
+
+                // Main process
+                if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+                    return true;
+                }
+
+                // Detect the user agent when the `nodeIntegration` option is set to true
+                if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+                    return true;
+                }
+
+                return false;
+        }
+
 });
 </script>
 @endpush

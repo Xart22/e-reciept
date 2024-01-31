@@ -28,6 +28,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-item-penjualan/{no_faktur}/{kode_barang}', [TandaTerimaController::class, 'deleteItemPenjualan'])->name('delete-item-penjualan');
     Route::resource('toko', App\Http\Controllers\TokoController::class);
     Route::resource('manajemen-user', App\Http\Controllers\ManajemenUserController::class);
+    Route::get('laporan-by-barang', [App\Http\Controllers\LaporanController::class, 'laporanByBarang'])->name('laporan-by-barang');
+    Route::get('laporan-by-toko', [App\Http\Controllers\LaporanController::class, 'laporanByToko'])->name('laporan-by-toko');
+    Route::get('laporan-by-penjualan', [App\Http\Controllers\LaporanController::class, 'laporanByPenjualan'])->name('laporan-by-penjualan');
+    Route::get('laporan-by-user', [App\Http\Controllers\LaporanController::class, 'laporanByUser'])->name('laporan-by-user');
+    Route::get('laporan-by-pelanggan', [App\Http\Controllers\LaporanController::class, 'laporanByPelanggan'])->name('laporan-by-pelanggan');
 });
 Route::get('cetak-tanda-terima/{id}', [App\Http\Controllers\TandaTerimaController::class, 'cetakTandaTerima'])->name('tanda-terima.cetak');
 Route::get('cetak-invoice/{id}', [App\Http\Controllers\TandaTerimaController::class, 'cetakInvoice'])->name('tanda-terima.cetak-invoice');
+Route::get('show-invoice/{id}', [App\Http\Controllers\TandaTerimaController::class, 'showInvoice'])->name('tanda-terima.show-invoice');

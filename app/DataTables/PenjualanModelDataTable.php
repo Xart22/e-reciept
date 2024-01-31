@@ -28,7 +28,7 @@ class PenjualanModelDataTable extends DataTable
                 if (Auth::user()->role == 'Admin') {
                     if ($data->status_service == 'Cancel' || $data->status_service == 'Selesai') {
                         return '<div class="container">
-                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-file-text"></i></i></button>
+                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-eye"></i></button>
                 <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
                 <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '" data-id-faktur="' . $data->no_faktur . '"> <i class="bi bi-trash"></i></button>
             </div>';
@@ -41,7 +41,7 @@ class PenjualanModelDataTable extends DataTable
                 } else {
                     if ($data->status_service == 'Cancel' || $data->status_service == 'Selesai') {
                         return '<div class="container">
-                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-file-text"></i></i></button>
+                <button  class="btn btn-primary btn-detail" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Detail" data-id="' . $data->id . '"> <i class="bi bi-eye"></i></button>
                 <button  class="btn btn-dark btn-print " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Cetak Tanda Terima" data-id="' . $data->id . '" data-url="' . route('tanda-terima.cetak', $data->id) . '"> <i class="bi bi-printer"></i></button>
             </div>';
                     }

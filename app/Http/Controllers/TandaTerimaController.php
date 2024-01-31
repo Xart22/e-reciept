@@ -90,6 +90,9 @@ class TandaTerimaController extends Controller
     public function show(string $id)
     {
         $data = PenjualanModel::where('id', $id)->with(['toko', 'userCreate', 'userUpdate', 'sparePart'])->first();
+        if ($data == null) {
+            $data = PenjualanModel::where('no_faktur', $id)->with(['toko', 'userCreate', 'userUpdate', 'sparePart'])->first();
+        }
         return view('tanda-terima.show', compact('data'));
     }
 
@@ -152,7 +155,7 @@ class TandaTerimaController extends Controller
                         'kode_barang' => $item['kode_barang'],
                         'no_faktur' => $no_faktur,
                         'out' => $item['qty'],
-                        'keterangan' => 'Penjualan Barang No Faktur ' . $no_faktur . ' oleh ' . Auth::user()->name,
+                        'keterangan' => 'Penjualan Barang No Faktur ' . $no_faktur . ' oleh ' . Auth::user()->username,
                         'created_by' => Auth::user()->id,
                         'saldo' => $stok->stok_barang
                     ]);
@@ -172,12 +175,14 @@ class TandaTerimaController extends Controller
                 'id_user' => Auth::user()->id,
                 'aktivitas' => 'Mengubah data penjualan dengan no faktur ' . $no_faktur,
             ]);
-
             if ($request->cetak_faktur == '1') {
                 PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Belum Diambil', 'status_service' => 'Selesai', 'updated_by' => Auth::user()->id,]);
                 DB::commit();
-                return redirect()->route('tanda-terima.cetak-invoice', $id);
+                if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Kasir' || Auth::user()->role == 'User') {
+                    return redirect()->route('tanda-terima.cetak-invoice', $id);
+                }
             }
+
 
             DB::commit();
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
@@ -268,5 +273,11 @@ class TandaTerimaController extends Controller
             DB::rollBack();
             return redirect()->route('tanda-terima.edit', $id)->with('error', 'Item penjualan gagal dihapus.');
         }
+    }
+
+    public function showInvoice($id)
+    {
+        $data = PenjualanModel::where('no_faktur', $id)->with(['toko', 'userCreate', 'userUpdate', 'sparePart'])->first();
+        return view('tanda-terima.show-invoice', compact('data'));
     }
 }
