@@ -92,13 +92,15 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="spesifikasiBarang" class="form-label">Spesifikasi</label>
-                            <textarea class="form-control" id="spesifikasiBarang" rows="4" name="item"></textarea>
+                            <textarea class="form-control" id="spesifikasiBarang" rows="4" name="item"
+                                required></textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="keluhanBarang" class="form-label">Keluhan</label>
-                            <textarea class="form-control" id="keluhanBarang" rows="4" name="keluhan"></textarea>
+                            <textarea class="form-control" id="keluhanBarang" rows="4" name="keluhan"
+                                required></textarea>
                         </div>
                     </div>
                 </div>
@@ -106,8 +108,8 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="kelengkapanBarang" class="form-label">Kelengkapan</label>
-                            <textarea class="form-control" id="kelengkapanBarang" rows="3"
-                                name="kelengkapan"></textarea>
+                            <textarea class="form-control" id="kelengkapanBarang" rows="3" name="kelengkapan"
+                                required></textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
