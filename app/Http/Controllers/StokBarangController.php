@@ -57,7 +57,7 @@ class StokBarangController extends Controller
             }
             DB::beginTransaction();
 
-            StokBarangModel::create($request->all());
+            StokBarangModel::create($request->only('kode_barang', 'nama_barang', 'stok_barang', 'harga_barang', 'satuan_barang'));
             StockBarangLogModel::create([
                 'tanggal' => date('Y-m-d'),
                 'kode_barang' => $request->kode_barang,
@@ -75,6 +75,7 @@ class StokBarangController extends Controller
             DB::commit();
             return redirect()->route('stok-barang.index')->with('success', 'Data berhasil disimpan');
         } catch (\Throwable $th) {
+            dd($th);
             DB::rollback();
             return redirect()->route('stok-barang.index')->with('error', 'Data gagal disimpan');
         }

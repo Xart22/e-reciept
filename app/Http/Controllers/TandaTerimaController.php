@@ -67,9 +67,10 @@ class TandaTerimaController extends Controller
             if (!$check) {
                 PelangganModel::create([
                     'nama_pelanggan' => $request->nama_pelanggan,
+                    'nama_perusahaan' => $request->nama_perusahaan,
                     'telepon_pelanggan' => $request->telepon_pelanggan,
                     'alamat_pelanggan' => $request->alamat_pelanggan,
-                    'created_by' => Auth::user()->id,
+                    'email_pelanggan' => $request->email_pelanggan,
                 ]);
             }
             DB::commit();
@@ -80,6 +81,7 @@ class TandaTerimaController extends Controller
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil disimpan.');
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th);
             return redirect()->route('tanda-terima.index')->with('error', 'Data gagal disimpan.');
         }
     }
