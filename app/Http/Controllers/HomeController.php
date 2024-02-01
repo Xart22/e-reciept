@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\PenjualanModel;
 use App\Models\PenjualanSparepartModel;
 use App\Models\StokBarangModel;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -99,5 +102,26 @@ class HomeController extends Controller
             'persentase_pendapatan' => $persentase_pendapatan,
             'stok_sparepart_kritis' => $stok_sparepart_kritis
         ]);
+    }
+
+    public function changePassword()
+    {
+        return view('profile.index');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            if (!(Hash::check($request->get('old_password'), Auth::user()->password))) {
+                return redirect()->back()->with("error", "Password lama tidak sesuai. Silakan coba lagi");
+            }
+            $userId = Auth::user()->id;
+            $user = User::find($userId);
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            return redirect()->route('home')->with('success', 'Password berhasil diubah');
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
 }

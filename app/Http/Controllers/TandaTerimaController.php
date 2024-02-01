@@ -119,8 +119,9 @@ class TandaTerimaController extends Controller
     {
         try {
             DB::beginTransaction();
-            if ($request->cancel == "1") {
-                PenjualanModel::where('id', $id)->update(['status_service' => 'Cancel', 'updated_by' => Auth::user()->id, 'status_pengambilan' => 'Belum Diambil']);
+            if ($request->status == "cancel") {
+                $faktur = PenjualanModel::where('id', $id)->with(['sparePart'])->first();
+                $faktur->update(['status_service' => 'Cancel', 'updated_by' => Auth::user()->id, 'status_pengambilan' => 'Belum Diambil']);
                 LogServiceModel::create([
                     'no_faktur' => PenjualanModel::where('id', $id)->first()->no_faktur,
                     'keterangan' => $request->keterangan_service,
@@ -130,11 +131,29 @@ class TandaTerimaController extends Controller
                     'id_user' => Auth::user()->id,
                     'aktivitas' => 'Mengubah status service penjualan dengan no faktur ' . PenjualanModel::where('id', $id)->first()->no_faktur . ' menjadi cancel',
                 ]);
+
+                foreach ($faktur->sparePart as $item) {
+                    $stok = StokBarangModel::where('kode_barang', $item->kode_barang)->first();
+                    $stok->update([
+                        'stok_barang' => $stok->stok_barang + $item->jumlah,
+                    ]);
+                    StockBarangLogModel::create([
+                        'tanggal' => date('Y-m-d'),
+                        'kode_barang' => $item->kode_barang,
+                        'no_faktur' => $faktur->no_faktur,
+                        'in' => $item->jumlah,
+                        'keterangan' => 'Pembatalan Penjualan Barang No Faktur ' . $faktur->no_faktur . ' oleh ' . Auth::user()->username,
+                        'created_by' => Auth::user()->id,
+                        'saldo' => $stok->stok_barang,
+                    ]);
+                }
+
+
                 DB::commit();
                 return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
             }
             $item_sparepart = json_decode($request->item_sparepart, true);
-            $data = $request->except(['_token', 'cancel', '_method', 'cetak_faktur', 'item_sparepart', 'total', 'keterangan_service']);
+            $data = $request->except(['_token', 'cancel', '_method', 'cetak_faktur', 'item_sparepart', 'total', 'keterangan_service', 'status']);
             if ($request->total) {
                 $data['total_harga'] = $request->total;
             }
@@ -177,18 +196,19 @@ class TandaTerimaController extends Controller
                 'id_user' => Auth::user()->id,
                 'aktivitas' => 'Mengubah data penjualan dengan no faktur ' . $no_faktur,
             ]);
-            if ($request->cetak_faktur == '1') {
-                PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Belum Diambil', 'status_service' => 'Selesai', 'updated_by' => Auth::user()->id,]);
-                DB::commit();
-                if (Auth::user()->role == 'Admin' || Auth::user()->role == 'Kasir' || Auth::user()->role == 'User') {
-                    return redirect()->route('tanda-terima.cetak-invoice', $id);
-                }
+            if ($request->status == "complete") {
+                PenjualanModel::where('id', $id)->update(['status_service' => 'Selesai', 'status_pengambilan' => 'Belum Diambil']);
+                LogModel::create([
+                    'id_user' => Auth::user()->id,
+                    'aktivitas' => 'Mengubah status service penjualan dengan no faktur ' . $no_faktur . ' menjadi complete',
+                ]);
             }
 
 
             DB::commit();
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
         } catch (\Throwable $th) {
+            dd($th);
             DB::rollBack();
             return redirect()->route('tanda-terima.index')->with('error', 'Data gagal diupdate.');
         }

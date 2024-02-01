@@ -73,7 +73,7 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="emailKonsumen" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="emailKonsumen" required autocomplete="off"
+                        <input type="text" class="form-control" id="emailKonsumen" autocomplete="off"
                             name="email_pelanggan">
 
                     </div>
@@ -105,36 +105,26 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col">
                         <div class="mb-3">
                             <label for="kelengkapanBarang" class="form-label">Kelengkapan</label>
-                            <textarea class="form-control" id="kelengkapanBarang" rows="3" name="kelengkapan"
-                                required></textarea>
+                            <textarea class="form-control" id="kelengkapanBarang" rows="3"
+                                name="kelengkapan"></textarea>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <br>
-                        <br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="cetakFaktur" checked name="cetak_faktur"
-                                value="1">
-                            <label class="form-check-label" for="cetakFaktur">
-                                Cetak Faktur
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="tidakCetakFaktur" name="cetak_faktur"
-                                value="0">
-                            <label class="form-check-label" for="tidakCetakFaktur">
-                                Tidak Cetak Faktur
-                            </label>
-                        </div>
+                </div>
+                <div class="row">
+                    <input type="hidden" id="cetakFaktur" name="cetak_faktur">
+                    <div class="col-sm-6"><button type="submit" id="save" class="btn btn-success w-100">Simpan</button>
+                    </div>
+                    <div class="col-sm-6"><button type="submit" id="cetak" class="btn btn-primary w-100">Simpan &
+                            Cetak</button>
                     </div>
                 </div>
 
 
 
-                <button type="submit" class="btn btn-primary w-100">Simpan</button>
+
             </form>
         </div>
     </div>
@@ -144,6 +134,12 @@
 @push('scripts')
 <script type="module">
     $(document).ready(function() {
+
+        $('#cetak').on('click', function() {
+            $('#cetakFaktur').val(1);
+        });
+
+
         const time= new Date().toLocaleTimeString('id-ID', {
                 hour: '2-digit',
                 minute: '2-digit'

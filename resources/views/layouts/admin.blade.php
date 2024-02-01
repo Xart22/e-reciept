@@ -132,11 +132,6 @@
           </svg>
         </button>
         <ul class="header-nav">
-          <li class="nav-item">
-            <button class="nav-link px-2">
-              {{Auth::user()->username}}
-            </button>
-          </li>
           <li class="nav-item dropdown">
             <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
               aria-expanded="false" data-coreui-toggle="dropdown">
@@ -172,26 +167,60 @@
           <li class="nav-item py-1">
             <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-          <li class="nav-item">
-            <form action="{{route('logout')}}" method="post">
-              @csrf
-              <button class="nav-link py-0 pe-0" type="submit">
-                <div class="avatar avatar-md">
-                  <svg class="icon me-2">
-                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout') }}"></use>
-                  </svg>
-                </div>
-              </button>
-            </form>
+          <li class="nav-item dropdown">
+            <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+              aria-expanded="false" data-coreui-toggle="dropdown">
+              {{ Auth::user()->username }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem;">
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{{route('change-password')}}">
+                  <svg class="icon icon-lg me-3">
+                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user') }}"></use>
+                  </svg>Ubah Password
+                </a>
+              </li>
+              <li>
+                <form action="{{route('logout')}}" method="post">
+                  @csrf
+                  <button class="dropdown-item d-flex align-items-center" type="submit">
+                    <svg class="icon icon-lg me-3">
+                      <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout') }}"></use>
+                    </svg>Logout
+                  </button>
+                </form>
+              </li>
+
+            </ul>
           </li>
         </ul>
       </div>
 
     </header>
+
     <div class="body flex-grow-1">
+      {{-- show error --}}
+      <div class="d-flex justify-content-center mx-auto w-100"
+        style="position: absolute; top: 20; left: 0; right: 0; z-index: 9999;" id="alert">
+        @if (Session::has('error'))
+        <div class="alert alert-danger w-100" role="alert">
+          {{Session::get('error')}}
+        </div>
+        @endif
+        {{-- show success --}}
+        @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+          {{Session::get('success')}}
+        </div>
+        @endif
+      </div>
       @yield('content')
     </div>
   </div>
+
+
+
+
 
 
   <script src="{{asset('vendors/@coreui/coreui/js/coreui.bundle.min.js')}}"></script>
@@ -205,7 +234,12 @@
                         document.documentElement.scrollTop > 0
                     );
                 }
-            });
+            });  
+  </script>
+  <script type="module">
+    $(document).ready(function () {
+      $(".alert").delay(3000).fadeOut(500);
+    });
   </script>
   @stack('scripts')
 </body>

@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-item-penjualan/{no_faktur}/{kode_barang}', [TandaTerimaController::class, 'deleteItemPenjualan'])->name('delete-item-penjualan');
     Route::resource('toko', App\Http\Controllers\TokoController::class);
     Route::resource('manajemen-user', App\Http\Controllers\ManajemenUserController::class);
+    Route::get('change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change-password');
+    Route::post('change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('change-password');
     Route::get('laporan-by-barang', [App\Http\Controllers\LaporanController::class, 'laporanByBarang'])->name('laporan-by-barang');
     Route::get('laporan-by-toko', [App\Http\Controllers\LaporanController::class, 'laporanByToko'])->name('laporan-by-toko');
     Route::get('laporan-by-penjualan', [App\Http\Controllers\LaporanController::class, 'laporanByPenjualan'])->name('laporan-by-penjualan');

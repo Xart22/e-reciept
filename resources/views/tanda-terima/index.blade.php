@@ -4,7 +4,13 @@
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    Data Service
+                    <div class="d-flex justify-content-between">
+                        <div>Data Service</div>
+                        <div><button class="btn btn-sm btn-dark" onclick="window.location.reload();"
+                                data-coreui-toggle="tooltip" data-coreui-placement="top"
+                                data-coreui-custom-class="custom-tooltip" data-coreui-title="Refesh"><i
+                                    class="bi bi-arrow-clockwise"></i></button></div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div style="overflow: auto;max-height: 80vh;padding: 10px;">

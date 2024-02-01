@@ -105,6 +105,12 @@
                 </div>
             </div>
         </div>
+        <div class="pe-2">
+            <div class="container rounded border-black border mb-3">
+                Service {{$data->item}}
+            </div>
+        </div>
+
         <table style="border-collapse: collapse;" cellspacing="0">
             <tr style="height: 27pt">
                 <td style="
@@ -358,7 +364,14 @@
         <div class="row">
             <div class="col">
                 <div class="rounded border-black border p-2">
-                    <span class="fw-bolder">Say : </span><span>{{$data->total_harga}} </span>
+                    <span class="fw-bolder">Say :
+                        @php
+                        $total = preg_match_all('/\d+/', $data->total_harga, $matches);
+                        $total = implode('', $matches[0]);
+                        @endphp
+                    </span><span class="text-capitalize">{{
+                        Riskihajar\Terbilang\Facades\Terbilang::make($total)}}
+                        Rupiah</span>
                 </div>
             </div>
             <div class="col">
@@ -436,7 +449,7 @@
         if (isElectronApp) {
 
         } else {
-            window.print()
+            //window.print()
             cetak.on('click', () => {
                 window.print();
             });

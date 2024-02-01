@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telepon_seluler');
             $table->string('email_pelanggan')->nullable();
             $table->string('item');
-            $table->longText('kelengkapan');
+            $table->longText('kelengkapan')->nullable();
             $table->longText('keluhan');
             $table->string('status_service')->default('Proses');
             $table->string('status_pengambilan')->default('-');

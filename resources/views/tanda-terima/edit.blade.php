@@ -5,6 +5,8 @@
             <div class="card">
                 <div class="card-header">
                     <strong>No. Faktur {{ $data->no_faktur }}</strong>
+
+
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -142,6 +144,10 @@
                     <strong>No. Faktur {{ $data->no_faktur }}</strong>
                 </div>
                 <form action="{{route('tanda-terima.update',$data->id)}}" method="post" id="formSaveTransaction">
+                    @csrf
+                    @method('put')
+                    <input type="hidden" name="item_sparepart" id="itemSparepart">
+                    <input type="hidden" name="total" id="total">
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col">
@@ -167,7 +173,7 @@
                                         <th scope="col">No</th>
                                         <th scope="col">Kode Barang</th>
                                         <th scope="col">Nama Barang</th>
-                                        <th scope="col">Jumlah</th>
+                                        <th scope="col">Qty</th>
                                         <th scope="col">Harga</th>
                                         <th scope="col">Subtotal</th>
                                         <th scope="col">-</th>
@@ -202,29 +208,22 @@
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="cetakFaktur" name="cetak_faktur" value="1">
-                            <label class="form-check-label" for="cetakFaktur">
-                                Cetak Invoice ( Selesaikan Transaksi )
+                            <input class="form-check-input" type="radio" id="cancelTransaction" name="status"
+                                value="cancel">
+                            <label class="form-check-label" for="cancelTransaction">
+                                Batalkan Transaksi
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="tidakCetakFaktur" name="cetak_faktur"
-                                value="0" checked>
-                            <label class="form-check-label" for="tidakCetakFaktur">
-                                Tidak Cetak Invoice
+                            <input class="form-check-input" type="radio" id="completeTransaction" name="status"
+                                value="complete">
+                            <label class="form-check-label" for="completeTransaction">
+                                Selesaikan Transaksi
                             </label>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-danger w-100" id="cancelTransaction">Batalkan
-                                    Transaksi</button>
-                            </div>
-                            <div class="col">
-                                @csrf
-                                @method('put')
-                                <input type="hidden" name="item_sparepart" id="itemSparepart">
-                                <input type="hidden" name="total" id="total">
                                 <button type="submit" class="btn btn-success w-100">Simpan Transaksi</button>
                             </div>
                         </div>
@@ -328,7 +327,7 @@
        <td>${table.children().length + 1}</td>
        <td>${kode_barang}</td>
        <td> ${nama_barang}</td>
-       <td><input type="number" class="form-control qty"  min="1" max="${stok_barang}" value="1"></td>
+       <td><input type="number" class="form-control qty" data-max="${stok_barang}" value="1"></td>
        <td>${harga_barang}</td>
        <td>${harga_barang}</td>
        <td><button type="button" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-x-circle"></i></button></td>
@@ -367,9 +366,13 @@
             showAutocompleteResults([]);
         });
 
-        $('#tableSparepart').on('change', '.qty', function() {
+        $('#tableSparepart').on('change', '.qty', function(e) {
             var qty = $(this).val();
-            var max = $(this).attr('max');
+            var max = $(this).data('max');
+            if (qty == 0) {
+                $(this).val(1);
+                qty = 1;
+            }
             if (qty > max) {
                 $(this).val(max);
                 qty = max;
@@ -379,7 +382,7 @@
             const item = JSON.parse(itemValue);
 
             $('#itemSparepart').val(JSON.stringify(item));
-            var price = $(this).closest('tr').find('td:nth-child(5)').text().replace(/[^\d.-]+/g, '').replace('.', '');
+            var price = $(this).closest('tr').find('td:nth-child(5)').text().replace(/[^\d.-]+/g, '').replaceAll('.', '');
             var subtotal = qty * price;
             for (var i = 0; i < item.length; i++) {
                 if (item[i].kode_barang == kode_barang) {
@@ -391,11 +394,17 @@
             $(this).closest('tr').find('td:nth-child(6)').text(formatRupiah(subtotal));
             calculateTotal();
         });
+        $(".qty").on('keyup', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                console.log('Enter Key Pressed')
+            }
+        });
 
         function calculateTotal() {
             var total = 0;
             $('#tableSparepart tbody tr').each(function() {
-                var subtotal = $(this).find('td:nth-child(6)').text().replace(/[^\d.-]+/g, '').replace('.', '');
+                var subtotal = $(this).find('td:nth-child(6)').text().replace(/[^\d.-]+/g, '').replaceAll('.', '');
+                console.log(subtotal);
                 if (subtotal == '') {
                     subtotal = 0;
                 }
@@ -423,20 +432,52 @@
             $('#textSparepart span').text(kode_barang);
             $('#formDelete').attr('action', url);
            
-            
-
-
         });
 
-        $('#cancelTransaction').on('click', function() {
-            $('#tableSparepart tbody').empty();
-            $('#tableSparepart tfoot tr td:nth-child(2)').text('Rp 0');
-            $('#itemSparepart').val('');
-            $('#total').val('');
+        $('#tableSparepart').on('click', '.btn-delete', function() {
+            console.log('delete');
+            var row = $(this).closest('tr');
+            var kode_barang = row.find('td:nth-child(2)').text();
+            var nama_barang = row.find('td:nth-child(3)').text();
+            var stok_barang = row.find('td:nth-child(4)').find('input').attr('max');
+            var harga_barang = row.find('td:nth-child(5)').text();
+            var satuan_barang = row.find('td:nth-child(6)').text();
+            var qty = row.find('td:nth-child(7)').text();
+            var subtotal = row.find('td:nth-child(8)').text();
+            var item = {
+                kode_barang: kode_barang,
+                nama_barang: nama_barang,
+                stok_barang: stok_barang,
+                harga_barang: harga_barang,
+                satuan_barang: satuan_barang,
+            };
+            var itemValue = $('#itemSparepart').val();
+            var itemSparepart = JSON.parse(itemValue);
+            for (var i = 0; i < itemSparepart.length; i++) {
+                if (itemSparepart[i].kode_barang == kode_barang) {
+                    itemSparepart.splice(i, 1);
+                }
+            }
+            $('#itemSparepart').val(JSON.stringify(itemSparepart));
 
+            dataSuggestion.push(item);
+            row.remove();
+            calculateTotal();
 
-            var inputCancel = '<input type="hidden" name="cancel" value="1">';
-            $('#formSaveTransaction').append(inputCancel);
+        });
+        $('#formSaveTransaction').on('keyup keypress', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        $('#keteranganService').on('keyup keypress', function(e) {
+
+            if (event.which == 13) {
+                event.stopPropagation();
+            }
+            
         });
 
 

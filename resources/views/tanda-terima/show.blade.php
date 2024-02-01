@@ -176,10 +176,12 @@
 
                                     </div>
                                     @endif
+                                    @if($data->status_service != 'Cancel')
                                     <div class="col">
                                         <button data-url="{{route('tanda-terima.cetak-invoice',$data->id)}}"
                                             class="btn btn-dark w-100" id="cetakInvoice">Cetak Invoice</button>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -202,8 +204,7 @@
         window.location.href = url;
     });
         }
-        })
-
+    });
     function isElectron() {
                 // Renderer process
                 if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
@@ -222,7 +223,5 @@
 
                 return false;
         }
-
-});
 </script>
 @endpush

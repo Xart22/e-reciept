@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\TokoModel;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -24,10 +25,16 @@ class TokoModelDataTable extends DataTable
         return (new EloquentDataTable($query))->rawColumns(['logo', 'action'])->addColumn('logo', function ($data) {
             return '<img src="' . asset('storage/img/' . $data->logo_toko) . '" width="80px">';
         })->addColumn('action', function ($data) {
-            return '<div class="container">
+            if (Auth::user()->role == 'Admin') {
+                return '<div class="container">
             <button  class="btn btn-warning btn-edit me-1" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Edit" data-id="' . $data->id . '" data-nama="' . $data->nama_toko . '" data-alamat="' . $data->alamat_toko . '" data-telpon="' . $data->telepon_toko . '" data-email="' . $data->email_toko . '"> <i class="bi bi-pencil-square"></i></button>
             <button  class="btn btn-danger btn-delete " data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Delete" data-id="' . $data->id . '" data-nama="' . $data->nama_toko . '" data-url ="' . route('toko.destroy', $data->id) . '"> <i class="bi bi-trash"></i></button>
         </div>';
+            } else {
+                return '<div class="container">
+        <button  class="btn btn-warning btn-edit me-1" data-coreui-toggle="tooltip" data-coreui-placement="top" data-coreui-title="Edit" data-id="' . $data->id . '" data-nama="' . $data->nama_toko . '" data-alamat="' . $data->alamat_toko . '" data-telpon="' . $data->telepon_toko . '" data-email="' . $data->email_toko . '"> <i class="bi bi-pencil-square"></i></button>
+    </div>';
+            }
         });
     }
 
