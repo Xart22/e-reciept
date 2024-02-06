@@ -105,11 +105,6 @@
                 </div>
             </div>
         </div>
-        <div class="pe-2">
-            <div class="container rounded border-black border mb-3">
-                Service {{$data->item}}
-            </div>
-        </div>
 
         <table style="border-collapse: collapse;" cellspacing="0">
             <tr style="height: 27pt">
@@ -131,7 +126,7 @@
                         text-indent: 0pt;
                         text-align: center;
                     ">
-                        Item
+                        No
                     </p>
                 </td>
                 <td style="
@@ -151,7 +146,7 @@
                         text-indent: 0pt;
                         text-align: left;
                     ">
-                        Item Description
+                        Description
                     </p>
                 </td>
                 <td style="
@@ -216,6 +211,90 @@
                     </p>
                 </td>
             </tr>
+            <tr style="height: 12pt">
+                <td style="
+                    width: 73pt;
+                    border-top-style: solid;
+                    border-left-style: solid;
+                    border-left-width: 2px;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+                ">
+                    <p class="s2" style="
+                        padding-left: 19pt;
+                        padding-right: 17pt;
+                        text-indent: 0pt;
+                        text-align: center;
+                    ">
+                        01
+                    </p>
+                </td>
+                <td style="
+                    width: 156pt;
+                    border-top-style: solid;
+          
+                    border-left-style: solid;
+                    border-left-width: 2px;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+                ">
+                    <p class="s2" style="
+                        padding-left: 4pt;
+                        text-indent: 0pt;
+                        text-align: left;
+                    ">
+                        {{$data->item}}
+                    </p>
+                </td>
+                <td style="
+                    width: 58pt;
+                    border-top-style: solid;
+     
+                    border-left-style: solid;
+                    border-left-width: 2px;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+                ">
+                    <p class="s2" style="text-indent: 0pt; text-align: center">
+
+                    </p>
+                </td>
+                <td style="
+                    width: 99pt;
+                    border-top-style: solid;
+
+                    border-left-style: solid;
+                    border-left-width: 2px;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+                ">
+                    <p class="s2" style="
+                        padding-right: 2px;
+                        text-indent: 0pt;
+                        text-align: right;
+                    ">
+
+                    </p>
+                </td>
+                <td style="
+                    width: 173pt;
+                    border-top-style: solid;
+   
+                    border-left-style: solid;
+                    border-left-width: 2px;
+                    border-right-style: solid;
+                    border-right-width: 2px;
+                ">
+                    <p class="s2" style="
+                        padding-right: 2px;
+                        text-indent: 0pt;
+                        text-align: right;
+                    ">
+
+                    </p>
+                </td>
+            </tr>
+
             @foreach ($data->sparepart as $item)
             <tr style="height: 12pt">
                 <td style="
@@ -232,7 +311,7 @@
                         text-indent: 0pt;
                         text-align: center;
                     ">
-                        {{$item->kode_barang}}
+
                     </p>
                 </td>
                 <td style="

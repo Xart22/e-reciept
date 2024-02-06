@@ -5,20 +5,18 @@
             <div class="card">
                 <div class="card-header">
                     <strong>No. Faktur {{ $data->no_faktur }}</strong>
-
-
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="tanggal" class="col-sm-2 col-form-label">Tanggal</label>
+                                    <label for="tanggal" class="col-sm-6 col-form-label">Tanggal</label>
                                     <input type="date" class="form-control" id="tanggal" name="tanggal"
                                         value="{{$data->tanggal}}" disabled />
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="waktu" class="col-sm-2 col-form-label">Waktu</label>
+                                    <label for="waktu" class="col-sm-6 col-form-label">Waktu</label>
                                     <input type="time" class="form-control" id="waktu" name="waktu"
                                         value="{{$data->waktu}}" disabled />
                                 </div>
@@ -328,7 +326,7 @@
        <td>${kode_barang}</td>
        <td> ${nama_barang}</td>
        <td><input type="number" class="form-control qty" data-max="${stok_barang}" value="1"></td>
-       <td>${harga_barang}</td>
+       <td><input type="text" class="form-control harga" data-base-harga="${harga_barang}" value="${harga_barang}"></td>
        <td>${harga_barang}</td>
        <td><button type="button" class="btn btn-danger btn-sm btn-delete"><i class="bi bi-x-circle"></i></button></td>
        <td></td>
@@ -382,7 +380,7 @@
             const item = JSON.parse(itemValue);
 
             $('#itemSparepart').val(JSON.stringify(item));
-            var price = $(this).closest('tr').find('td:nth-child(5)').text().replace(/[^\d.-]+/g, '').replaceAll('.', '');
+            var price = $(this).closest('tr').find('td:nth-child(5)').find('input').val().replace(/[^\d.-]+/g, '').replaceAll('.', '');
             var subtotal = qty * price;
             for (var i = 0; i < item.length; i++) {
                 if (item[i].kode_barang == kode_barang) {
@@ -394,6 +392,26 @@
             $(this).closest('tr').find('td:nth-child(6)').text(formatRupiah(subtotal));
             calculateTotal();
         });
+        $('#tableSparepart').on('change', '.harga', function(e) {
+            var price = $(this).val().replace(/[^\d.-]+/g, '').replaceAll('.', '');
+            var qty = $(this).closest('tr').find('td:nth-child(4)').find('input').val();
+            var kode_barang = $(this).closest('tr').find('td:nth-child(2)').text();
+            const itemValue = $('#itemSparepart').val();
+            const item = JSON.parse(itemValue);
+            $('#itemSparepart').val(JSON.stringify(item));
+            var subtotal = qty * price;
+            for (var i = 0; i < item.length; i++) {
+                if (item[i].kode_barang == kode_barang) {
+                    item[i].harga_barang = formatRupiah(price);
+                    item[i].subtotal = formatRupiah(subtotal);
+                }
+            }
+            $('#itemSparepart').val(JSON.stringify(item));
+            $(this).closest('tr').find('td:nth-child(5)').find('input').val(formatRupiah(price));
+            $(this).closest('tr').find('td:nth-child(6)').text(formatRupiah(subtotal));
+            calculateTotal();
+        });
+
         $(".qty").on('keyup', function (e) {
             if (e.key === 'Enter' || e.keyCode === 13) {
                 console.log('Enter Key Pressed')
@@ -404,7 +422,6 @@
             var total = 0;
             $('#tableSparepart tbody tr').each(function() {
                 var subtotal = $(this).find('td:nth-child(6)').text().replace(/[^\d.-]+/g, '').replaceAll('.', '');
-                console.log(subtotal);
                 if (subtotal == '') {
                     subtotal = 0;
                 }
@@ -435,12 +452,11 @@
         });
 
         $('#tableSparepart').on('click', '.btn-delete', function() {
-            console.log('delete');
             var row = $(this).closest('tr');
             var kode_barang = row.find('td:nth-child(2)').text();
             var nama_barang = row.find('td:nth-child(3)').text();
-            var stok_barang = row.find('td:nth-child(4)').find('input').attr('max');
-            var harga_barang = row.find('td:nth-child(5)').text();
+            var stok_barang = row.find('td:nth-child(4)').find('input').attr('data-max');
+            var harga_barang = row.find('td:nth-child(5)').find('input').attr('data-base-harga');
             var satuan_barang = row.find('td:nth-child(6)').text();
             var qty = row.find('td:nth-child(7)').text();
             var subtotal = row.find('td:nth-child(8)').text();
@@ -462,6 +478,9 @@
 
             dataSuggestion.push(item);
             row.remove();
+            $('#tableSparepart tbody tr').each(function(index) {
+                $(this).find('td:nth-child(1)').text(index + 1);
+            });
             calculateTotal();
 
         });

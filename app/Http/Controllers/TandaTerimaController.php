@@ -208,7 +208,6 @@ class TandaTerimaController extends Controller
             DB::commit();
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil diupdate.');
         } catch (\Throwable $th) {
-            dd($th);
             DB::rollBack();
             return redirect()->route('tanda-terima.index')->with('error', 'Data gagal diupdate.');
         }
@@ -264,8 +263,8 @@ class TandaTerimaController extends Controller
             $stok->update([
                 'stok_barang' => $stok->stok_barang + $data->jumlah,
             ]);
-            $subTotal = str_replace('Rp ', '', $data->subtotal);
-            $subTotal = str_replace('.', '', $subTotal);
+            $subTotal = preg_match_all('/\d+/', $data->subtotal, $matches);
+            $subTotal = implode('', $matches[0]);
             $total = preg_match_all('/\d+/', $faktur->total_harga, $matches);
             $total = implode('', $matches[0]);
             $total = $total - $subTotal;
@@ -282,7 +281,7 @@ class TandaTerimaController extends Controller
                 'created_by' => Auth::user()->id,
                 'saldo' => $stok->stok_barang,
             ]);
-            $data->delete();
+            PenjualanSparepartModel::where('no_faktur', $faktur->no_faktur)->where('kode_barang', $kode_barang)->delete();
 
             LogModel::create([
                 'id_user' => Auth::user()->id,
@@ -292,6 +291,7 @@ class TandaTerimaController extends Controller
 
             return redirect()->route('tanda-terima.edit', $id)->with('success', 'Item penjualan berhasil dihapus.');
         } catch (\Throwable $th) {
+            dd($th);
             DB::rollBack();
             return redirect()->route('tanda-terima.edit', $id)->with('error', 'Item penjualan gagal dihapus.');
         }

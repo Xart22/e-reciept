@@ -73,7 +73,7 @@ class TokoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->except(['_token', '_method', 'logo_toko', 'defaultToko']);
+        $data = $request->except(['_token', '_method', 'logo_toko', 'default_toko']);
         $toko = TokoModel::findOrFail($id);
         if ($request->hasFile('logo_toko')) {
             $file = $request->file('logo_toko');
@@ -82,9 +82,9 @@ class TokoController extends Controller
             $data['logo_toko'] = $filename;
             Storage::delete('public/img/' . $toko->logo_toko);
         }
-        $toko->update($data);
 
-        if ($request->defaultToko) {
+        $toko->update($data);
+        if ($request->default_toko) {
             SettingModel::find(1)->update(['toko_id' => $id]);
         }
 
