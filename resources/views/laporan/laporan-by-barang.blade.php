@@ -7,25 +7,72 @@
                     Laporan by Barang
                 </div>
                 <div class="card-body">
+                    <form action="{{ route('laporan-by-barang') }}" method="get">
+                        <div class="mb-3 wraper-search">
+                            <div class="form-group">
+                                <label for="searchInput">Cari Barang:</label>
+                                <input type="text" class="form-control" id="searchInput" autocomplete="off">
+                                <input type="hidden" id="kodeBarang">
+                            </div>
+                            <div id="autocompleteResults" class="list-group"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="from" class="form-label">Dari</label>
+                                <input type="date" class="form-control" id="from" required value="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="col-6">
+                                <label for="to" class="form-label">Sampai</label>
+                                <input type="date" class="form-control" id="to" required value="{{date('Y-m-d')}}">
+                            </div>
+                        </div>
+                        <div class="mt-3 p-3">
+                            <h5>Parameter</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="parameter[]"
+                                    value="status_selesai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Status Selesai
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="parameter[]"
+                                    value="status_proses">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Status Proses
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="parameter[]" value="status_gagal">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Status Gagal
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="parameter[]"
+                                    value="status_pengambilan">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Status Pengambilan Sudah diambil
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="parameter[]"
+                                    value="status_pengambilan_belum">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Status Pengambilan Belum diambil
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <button type="submit" class="btn btn-success w-100">Cari</button>
+                            </div>
 
-                    <div class="mb-3 wraper-search">
-                        <div class="form-group">
-                            <label for="searchInput">Cari Barang:</label>
-                            <input type="text" class="form-control" id="searchInput" autocomplete="off">
-                            <input type="hidden" id="kodeBarang">
+                            <div class="col">
+                                <button type="button" class="btn btn-danger w-100">Reset</button>
+                            </div>
                         </div>
-                        <div id="autocompleteResults" class="list-group"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="from" class="form-label">From</label>
-                            <input type="date" class="form-control" id="from" required value="{{date('Y-m-d')}}">
-                        </div>
-                        <div class="col-6">
-                            <label for="to" class="form-label">To</label>
-                            <input type="date" class="form-control" id="to" required value="{{date('Y-m-d')}}">
-                        </div>
-                    </div>
+                    </form>
                     <br />
                     <div style="overflow-x:auto; max-height: 800px">
                         <table class="table table-striped table-bordered" style="position: relative">
@@ -139,10 +186,14 @@
         const from = $('#from').val();
         const to = $('#to').val();
         const kodeBarang = $('#kodeBarang').val();
+        const parameter = $('input[name="parameter[]"]:checked').map(function(){
+            return $(this).val();
+        }).get();
         const data = {
             from,
             to,
-            kodeBarang
+            kodeBarang,
+            parameter
         }
         const response = await fetch(urlData, {
             method: 'POST',
@@ -188,7 +239,6 @@
         }
         if (!isElectronApp) {
     $('#table-body').find("button").click(function(){
-        console.log('test');
         const url = $(this).data('url');
         window.open(url, '_blank');
     });

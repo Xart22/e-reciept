@@ -1,4 +1,7 @@
-@extends('layouts.admin') @section('content')
+@extends('layouts.admin')
+
+
+@section('content')
 <div class="container-fluid">
     <div class="row mb-3">
         <div class="col">
@@ -206,16 +209,16 @@
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="cancelTransaction" name="status"
+                            <input class="form-check-input " type="radio" id="cancelTransaction" name="status"
                                 value="cancel">
-                            <label class="form-check-label" for="cancelTransaction">
+                            <label class="form-check-label fw-bolder mt-1 mx-2" for="cancelTransaction">
                                 Batalkan Transaksi
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" id="completeTransaction" name="status"
                                 value="complete">
-                            <label class="form-check-label" for="completeTransaction">
+                            <label class="form-check-label fw-bolder mt-1 mx-2" for="completeTransaction">
                                 Selesaikan Transaksi
                             </label>
                         </div>
