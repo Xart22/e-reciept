@@ -18,38 +18,96 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label for="from" class="form-label">From</label>
-                            <input type="date" class="form-control" id="from" required value="{{date('Y-m-d')}}">
+                            <label for="from" class="form-label">Dari</label>
+                            <input type="date" class="form-control" id="from" required value="{{date('Y-m-d')}}"
+                                name="from">
                         </div>
                         <div class="col-6">
-                            <label for="to" class="form-label">To</label>
-                            <input type="date" class="form-control" id="to" required value="{{date('Y-m-d')}}">
+                            <label for="to" class="form-label">Sampai</label>
+                            <input type="date" class="form-control" id="to" required value="{{date('Y-m-d')}}"
+                                name="to">
+                        </div>
+                    </div>
+                    <div class="mt-3 p-3">
+                        <h5>Parameter Status Service :</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="statusSelesai" name="status_service"
+                                value="Selesai">
+                            <label class="form-check-label fw-bolder" for="statusSelesai">
+                                Status Selesai
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusProses" name="status_service"
+                                value="Proses">
+                            <label class="form-check-label fw-bolder" for="statusProses">
+                                Status Proses
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusGagal" name="status_service"
+                                value="Cancel">
+                            <label class="form-check-label fw-bolder" for="statusGagal">
+                                Status Gagal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusServiceAll" name="status_service"
+                                value="all" checked>
+                            <label class="form-check-label fw-bolder" for="statusServiceAll">
+                                Semua Status
+                            </label>
+                        </div>
+                        <h5 class="mt-3">Parameter Status Pengambilan Barang :</h5>
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusPengambilanSudah"
+                                name="status_barang" value="Sudah Diambil">
+                            <label class="form-check-label fw-bolder" for="statusPengambilanSudah">
+                                Status Pengambilan Sudah diambil
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusPengambilanBelum"
+                                name="status_barang" value="Belum Diambil">
+                            <label class="form-check-label fw-bolder" for="statusPengambilanBelum">
+                                Status Pengambilan Belum diambil
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" id="statusPengambilanAll" name="status_barang"
+                                value="all" checked>
+                            <label class="form-check-label fw-bolder" for="statusPengambilanAll">
+                                Semua Status
+                            </label>
                         </div>
                     </div>
                     <br />
-                    <div style="overflow-x:auto; max-height: 800px">
-                        <table class="table table-striped table-bordered" style="position: relative">
-                            <thead>
-                                <tr style="position: sticky; top: 0; background: white; z-index: 1">
-                                    <th scope="col">No</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">No. Faktur</th>
-                                    <th scope="col">Nama Pelanggan</th>
-                                    <th scope="col">Nama Perusahaan</th>
-                                    <th scope="col">Telpon</th>
-                                    <th scope="col">Item</th>
-                                    <th scope="col">Status Service</th>
-                                    <th scope="col">Status Penganbilan</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-body">
-                                <tr>
-                                    <td colspan="10" class="text-center">Tidak ada data</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button class="btn btn-primary w-100" id="filter" type="button">Cari</button>
+                        </div>
                     </div>
+
+                    <table class="table table-bordered data-table" id="table">
+                        <thead>
+                            <tr>
+                                <th>No Faktur</th>
+                                <th>Tanggal</th>
+                                <th>Duraasi Service</th>
+                                <th>Nama Pelanggan</th>
+                                <th>Nama Perusahaan</th>
+                                <th>Telpon</th>
+                                <th>Item</th>
+                                <th>Status Service</th>
+                                <th>Status Pengambilan</th>
+                                <th>Duraasi Pengambilan</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
@@ -64,23 +122,9 @@
 
 
 <script type="module">
-    const url = "{{ route('get-stock-barang') }}";
     $(document).ready(async function() {
-
-        $('#from').change(async function(){
-            const kodeBarang = $('#user').val();
-            if(kodeBarang != ''){
-                await getData();
-            }
-        });
-        $('#to').change(async function(){
-            const kodeBarang = $('#user').val();
-            if(kodeBarang != ''){
-                await getData();
-            }
-        });
          // Data contoh untuk autocomplete
-         var dataSuggestion = {!!$pelanggan!!};
+         var dataSuggestion = {!!$pelangganDb!!};
         $(document).keyup(function(e) {
             if (e.key === "Escape") {
                 $('#autocompleteResults').hide();
@@ -128,78 +172,55 @@
             $('#searchInput').val(nama_pelanggan + ' | ' + nama_perusahaan);
             $('#autocompleteResults').hide();
             $('#user').val(userId);
-            getData();
         });
-
-    });
-    const isElectronApp = isElectron();
-
-   const urlData = "{{ route('laporan-by-pelanggan-api') }}";
-   async function getData(){
-        const from = $('#from').val();
-        const to = $('#to').val();
-        const userId = $('#user').val();
-        const data = {
-            from,
-            to,
-            userId
-        }
-        const response = await fetch(urlData, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
+        const isElectronApp = isElectron();
+        var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-by-pelanggan') }}",
+            data: function (d) {
+                d.userId = $('#user').val();
+                d.from = $('#from').val();
+                d.to = $('#to').val();
+                d.status_service = $('input[name=status_service]:checked').val();
+                d.status_barang = $('input[name=status_barang]:checked').val();
+            }
+        },
+        autoWidth: false,
+        columns: [
+            {data: 'no_faktur', name: 'no_faktur'},
+            {data: 'tanggal', name: 'Tanggal'},
+            {data: 'Durasi Service', name: 'durasi_service'},
+            {data: 'nama_pelanggan', name: 'nama_pelanggan'},
+            {data: 'nama_perusahaan', name: 'nama_perusahaan'},
+            {data: 'telepon_pelanggan', name: 'telpon'},
+            {data: 'item', name: 'item'},
+            {data: 'status_service', name: 'status_service'},
+            {data: 'status_pengambilan', name: 'status_pengambilan'},
+            {data: 'Durasi Pengambilan', name: 'durasi_pengambilan'},
+            {data: 'action', name: 'action', orderable: false, searchable: false}
+  
+        ],
+        buttons: [
+             'excel'
+        ]
         });
-        const result = await response.json();
-        const urlDetail = "{{ route('tanda-terima.show', ':id') }}";
-        console.log(result);
-        if(result.data.length > 0){
-            $('#table-body').empty();
-            result.data.forEach((item, index) => {
-
-                $('#table-body').append(`
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.tanggal}</td>
-                        <td>${item.no_faktur}</td>
-                        <td>${item.nama_pelanggan}</td>
-                        <td>${item.nama_perusahaan}</td>
-                        <td>${item.telepon_pelanggan}</td>
-                        <td>${item.item}</td>
-                        <td>${item.keluhan}</td>
-                        <td>${item.status_service}</td>
-                        <td>${item.status_pengambilan}</td>
-                        <td>
-                            <button data-url="${urlDetail.replace(':id',item.no_faktur)}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></button>
-                        </td>
-                    </tr>
-                `);
-            });
-        }else{
-            $('#table-body').empty();
-            $('#table-body').append(`
-                <tr>
-                    <td colspan="9" class="text-center">Tidak ada data</td>
-                </tr>
-            `);
-        }
+        $('#filter').click(function () {
+            $('.data-table').DataTable().draw(true);
+        });
+        
         if (!isElectronApp) {
-    $('#table-body').find("button").click(function(){
-        console.log('test');
-        const url = $(this).data('url');
-        window.open(url, '_blank');
+            $('table').on('click', 'button', function () {
+                const url = $(this).data('url');
+                window.open(url, '_blank');
+            });
+        }
+
     });
-} else{
-    $('#table-body').find("button").click(function(){
-        console.log('test');
-        const url = $(this).data('url');
-        window.location.href = url;
-    });
-}
-   }
+
+
+
    function isElectron() {
                 // Renderer process
                 if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {

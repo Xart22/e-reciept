@@ -49,57 +49,9 @@
     #autocompleteResults.show {
       display: block;
     }
-
-    input[type='radio'] {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      outline: none;
-      border: 3px solid gray;
-    }
-
-    input[type='radio']:before {
-      content: '';
-      display: block;
-      width: 60%;
-      height: 60%;
-      margin: 20% auto;
-      border-radius: 50%;
-    }
-
-    input[type="radio"]:checked:before {
-      background: green;
-
-    }
-
-    input[type="radio"]:checked {
-      border-color: green;
-    }
-
-    .role {
-      margin-right: 80px;
-      margin-left: 20px;
-      font-weight: normal;
-    }
-
-    .checkbox label {
-      margin-bottom: 20px !important;
-    }
-
-    .roles {
-      margin-bottom: 40px;
-    }
-
-    #cancelTransaction:checked:before {
-      background-color: red;
-    }
-
-    #cancelTransaction:checked {
-      border-color: red;
-      background-color: red;
-    }
   </style>
+  @stack('styles')
+
 </head>
 
 <body>
@@ -141,15 +93,14 @@
       @endif
       @if (Auth::user()->role == 'Admin')
       <li class="nav-title">Laporan Penjualan</li>
+      <li class="nav-item"><a class="nav-link" href="{{route('laporan')}}"><i class="bi bi-receipt m-2"></i>Laporan</a>
+      </li>
       <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-barang')}}"><i
             class="bi bi-receipt m-2"></i>Laporan by
           Barang</a></li>
       <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-toko')}}"><i class="bi bi-receipt m-2"></i>
           Laporan by
           Toko</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-penjualan')}}"><i
-            class="bi bi-receipt m-2"></i> Laporan by
-          Penjualan</a></li>
       <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-user')}}"><i class="bi bi-receipt m-2"></i>
           Laporan by
           Pengguna</a></li>

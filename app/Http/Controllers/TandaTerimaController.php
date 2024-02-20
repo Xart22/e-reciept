@@ -121,7 +121,7 @@ class TandaTerimaController extends Controller
             DB::beginTransaction();
             if ($request->status == "cancel") {
                 $faktur = PenjualanModel::where('id', $id)->with(['sparePart'])->first();
-                $faktur->update(['status_service' => 'Cancel', 'updated_by' => Auth::user()->id, 'status_pengambilan' => 'Belum Diambil']);
+                $faktur->update(['status_service' => 'Cancel', 'updated_by' => Auth::user()->id, 'status_pengambilan' => 'Belum Diambil', 'service_selesai' => date('Y-m-d')]);
                 LogServiceModel::create([
                     'no_faktur' => PenjualanModel::where('id', $id)->first()->no_faktur,
                     'keterangan' => $request->keterangan_service,
@@ -197,7 +197,7 @@ class TandaTerimaController extends Controller
                 'aktivitas' => 'Mengubah data penjualan dengan no faktur ' . $no_faktur,
             ]);
             if ($request->status == "complete") {
-                PenjualanModel::where('id', $id)->update(['status_service' => 'Selesai', 'status_pengambilan' => 'Belum Diambil']);
+                PenjualanModel::where('id', $id)->update(['status_service' => 'Selesai', 'status_pengambilan' => 'Belum Diambil', 'service_selesai' => date('Y-m-d')]);
                 LogModel::create([
                     'id_user' => Auth::user()->id,
                     'aktivitas' => 'Mengubah status service penjualan dengan no faktur ' . $no_faktur . ' menjadi complete',
@@ -238,7 +238,7 @@ class TandaTerimaController extends Controller
 
     public function updateStatusPengambilan($id)
     {
-        PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Sudah Diambil']);
+        PenjualanModel::where('id', $id)->update(['status_pengambilan' => 'Sudah Diambil', 'pengambilan_barang' => date('Y-m-d')]);
         LogModel::create([
             'id_user' => Auth::user()->id,
             'aktivitas' => 'Mengubah status pengambilan barang dengan no faktur ' . PenjualanModel::where('id', $id)->first()->no_faktur,

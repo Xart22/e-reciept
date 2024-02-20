@@ -4,18 +4,10 @@
         <div class="col">
             <div class="card mb-4">
                 <div class="card-header" id="titleCard">
-                    Laporan by Toko
+                    Laporan
                 </div>
                 <div class="card-body">
 
-                    <div class="mb-3 wraper-search">
-                        <div class="form-group">
-                            <label for="searchInput">Cari Toko:</label>
-                            <input type="text" class="form-control" id="searchInput" autocomplete="off">
-                            <input type="hidden" id="toko">
-                        </div>
-                        <div id="autocompleteResults" class="list-group"></div>
-                    </div>
                     <div class="row">
                         <div class="col-6">
                             <label for="from" class="form-label">Dari</label>
@@ -88,7 +80,7 @@
                             <button class="btn btn-primary w-100" id="filter" type="button">Cari</button>
                         </div>
                     </div>
-                    <br />
+
                     <table class="table table-bordered data-table" id="table">
                         <thead>
                             <tr>
@@ -109,6 +101,7 @@
                         </tbody>
                     </table>
 
+
                 </div>
             </div>
         </div>
@@ -120,67 +113,15 @@
 
 @push("scripts")
 
-
 <script type="module">
-    $(document).ready(async function() {
-         // Data contoh untuk autocomplete
-         var dataSuggestion = {!!$toko!!};
-        $(document).keyup(function(e) {
-            if (e.key === "Escape") {
-                $('#autocompleteResults').hide();
-            }
-        });
-
-
-        // Fungsi untuk menampilkan hasil autocomplete
-        function showAutocompleteResults(results) {
-
-            var resultList = $('#autocompleteResults');
-            resultList.empty();
-
-            for (var i = 0; i < results.length; i++) {
-            
-                resultList.append(`<a class="list-group-item list-group-item-action" data-nama_toko="${results[i].nama_toko}" data-id="${results[i].id}">${results[i].nama_toko}</a>`);
-            }
-            resultList.show();
-        }
-
-        $('#searchInput').on('click', function() {
-
-            showAutocompleteResults(dataSuggestion);
-
-        });
-
-        // Fungsi untuk melakukan pencarian autocomplete
-        $('#searchInput').on('input', function() {
-            var inputText = $(this).val().toLowerCase();
-            var results = [];
-
-            if (inputText.length > 0) {
-                results = dataSuggestion.filter(function(item) {
-                    return item.nama_toko.toLowerCase().indexOf(inputText) != -1;
-                });
-            }
-
-            showAutocompleteResults(results);
-        });
-
-
-        $('#autocompleteResults').on('click', 'a', function() {
-            var id = $(this).data('id');
-            var namaToko = $(this).data('nama_toko');
-            $('#searchInput').val(namaToko);
-            $('#autocompleteResults').hide();
-            $('#toko').val(id);
-        });
+    $(document).ready(function () {
         const isElectronApp = isElectron();
         var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-            url: "{{ route('laporan-by-toko') }}",
+            url: "{{ route('laporan') }}",
             data: function (d) {
-                d.tokoId = $('#toko').val();
                 d.from = $('#from').val();
                 d.to = $('#to').val();
                 d.status_service = $('input[name=status_service]:checked').val();
@@ -216,12 +157,10 @@
                 window.open(url, '_blank');
             });
         }
-
+        
     });
 
-
-
-   function isElectron() {
+    function isElectron() {
                 // Renderer process
                 if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
                     return true;
@@ -240,6 +179,8 @@
                 return false;
         }
 
+       
+        
 </script>
 
 @endpush

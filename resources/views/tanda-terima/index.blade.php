@@ -13,9 +13,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div style="overflow: auto;max-height: 80vh;padding: 10px;">
-                        {{ $dataTable->table() }}
-                    </div>
+
+                    {{ $dataTable->table() }}
+
                 </div>
             </div>
         </div>
