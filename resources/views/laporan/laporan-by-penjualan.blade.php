@@ -32,6 +32,7 @@
                                     <th scope="col">Item</th>
                                     <th scope="col">Status Service</th>
                                     <th scope="col">Status Penganbilan</th>
+                                    <th>Dibuat Oleh</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>

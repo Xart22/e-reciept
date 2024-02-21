@@ -18,18 +18,19 @@ class LaporanController extends Controller
     public function index(Request $request)
     {
         if ($request->status_service != 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->with('userCreate')->get();
         } else if ($request->status_service == 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->with('userCreate')->get();
         } else if ($request->status_service != 'all' && $request->status_barang == 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->with('userCreate')->get();
         } else {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->with('userCreate')->get();
         }
         if ($request->action == 'excel') {
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
             return (new LaporanExport($request->from, $request->to, $request->status_service, $request->status_barang))->download($fileName);
         }
+
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addColumn('Durasi Service', function ($data) {
@@ -83,7 +84,9 @@ class LaporanController extends Controller
                         return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
                     }
                 })
-                ->addColumn('action', function ($data) {
+                ->addColumn('userCreate', function ($data) {
+                    return $data->userCreate->username;
+                })->addColumn('action', function ($data) {
                     return '<button data-url="' . route('tanda-terima.show-laporan', $data->no_faktur) . '" class="btn btn-sm btn-primary btn-print"><i class="bi bi-eye"></i></button>';
                 })
                 ->rawColumns(['action', 'status_service', 'Durasi Service', 'Durasi Pengambilan'])
@@ -98,13 +101,13 @@ class LaporanController extends Controller
     {
         $stokBarang = StokBarangModel::all();
         if ($request->status_service != 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->with('userCreate')->get();
         } else if ($request->status_service == 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->with('userCreate')->get();
         } else if ($request->status_service != 'all' && $request->status_barang == 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->with('userCreate')->get();
         } else {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->with('userCreate')->get();
         }
         if ($request->action == 'excel') {
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
@@ -171,7 +174,9 @@ class LaporanController extends Controller
                         return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
                     }
                 })
-                ->addColumn('action', function ($data) {
+                ->addColumn('userCreate', function ($data) {
+                    return $data->userCreate->username;
+                })->addColumn('action', function ($data) {
                     return '<button data-url="' . route('tanda-terima.show-laporan', $data->no_faktur) . '" class="btn btn-sm btn-primary btn-print"><i class="bi bi-eye"></i></button>';
                 })
                 ->rawColumns(['action', 'status_service', 'Durasi Service', 'Durasi Pengambilan'])
@@ -183,13 +188,13 @@ class LaporanController extends Controller
     {
         $toko = TokoModel::all();
         if ($request->status_service != 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('toko_id', $request->tokoId)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('toko_id', $request->tokoId)->with('userCreate')->get();
         } else if ($request->status_service == 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('toko_id', $request->tokoId)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('toko_id', $request->tokoId)->with('userCreate')->get();
         } else if ($request->status_service != 'all' && $request->status_barang == 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('toko_id', $request->tokoId)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('toko_id', $request->tokoId)->with('userCreate')->get();
         } else {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('toko_id', $request->tokoId)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('toko_id', $request->tokoId)->with('userCreate')->get();
         }
         if ($request->action == 'excel') {
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
@@ -248,7 +253,9 @@ class LaporanController extends Controller
                         return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
                     }
                 })
-                ->addColumn('action', function ($data) {
+                ->addColumn('userCreate', function ($data) {
+                    return $data->userCreate->username;
+                })->addColumn('action', function ($data) {
                     return '<button data-url="' . route('tanda-terima.show-laporan', $data->no_faktur) . '" class="btn btn-sm btn-primary btn-print"><i class="bi bi-eye"></i></button>';
                 })
                 ->rawColumns(['action', 'status_service', 'Durasi Service', 'Durasi Pengambilan'])
@@ -261,13 +268,13 @@ class LaporanController extends Controller
     {
         $user = User::all();
         if ($request->status_service != 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('created_by', $request->userId)->with('sparePart')->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('created_by', $request->userId)->with('sparePart')->with('userCreate')->get();
         } else if ($request->status_service == 'all' && $request->status_barang != 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('created_by', $request->userId)->with('sparePart')->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('created_by', $request->userId)->with('sparePart')->with('userCreate')->get();
         } else if ($request->status_service != 'all' && $request->status_barang == 'all') {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('created_by', $request->userId)->with('sparePart')->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('created_by', $request->userId)->with('sparePart')->with('userCreate')->get();
         } else {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('created_by', $request->userId)->with('sparePart')->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('created_by', $request->userId)->with('sparePart')->with('userCreate')->get();
         }
         if ($request->action == 'excel') {
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
@@ -327,7 +334,9 @@ class LaporanController extends Controller
                         return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
                     }
                 })
-                ->addColumn('action', function ($data) {
+                ->addColumn('userCreate', function ($data) {
+                    return $data->userCreate->username;
+                })->addColumn('action', function ($data) {
                     return '<button data-url="' . route('tanda-terima.show-laporan', $data->no_faktur) . '" class="btn btn-sm btn-primary btn-print"><i class="bi bi-eye"></i></button>';
                 })
                 ->rawColumns(['action', 'status_service', 'Durasi Service', 'Durasi Pengambilan'])
@@ -344,13 +353,13 @@ class LaporanController extends Controller
             $pelanggan = PelangganModel::where('id', $request->userId)->first();
         }
         if ($request->status_service != 'all' && $request->status_barang != 'all' && $request->userId) {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('status_pengambilan', $request->status_barang)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->with('userCreate')->get();
         } else if ($request->status_service == 'all' && $request->status_barang != 'all' && $request->userId) {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_pengambilan', $request->status_barang)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->with('userCreate')->get();
         } else if ($request->status_service != 'all' && $request->status_barang == 'all' && $request->userId) {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', $request->status_service)->where('nama_pelanggan', $pelanggan->nama_pelanggan)->with('userCreate')->get();
         } else {
-            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->get();
+            $data = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->with('userCreate')->get();
         }
         if ($request->action == 'excel') {
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
@@ -410,7 +419,9 @@ class LaporanController extends Controller
                         return '<span class="badge bg-danger w-100 fs-6">' . $data->status_service . '</span>';
                     }
                 })
-                ->addColumn('action', function ($data) {
+                ->addColumn('userCreate', function ($data) {
+                    return $data->userCreate->username;
+                })->addColumn('action', function ($data) {
                     return '<button data-url="' . route('tanda-terima.show-laporan', $data->no_faktur) . '" class="btn btn-sm btn-primary btn-print"><i class="bi bi-eye"></i></button>';
                 })
                 ->rawColumns(['action', 'status_service', 'Durasi Service', 'Durasi Pengambilan'])
@@ -422,7 +433,7 @@ class LaporanController extends Controller
     public function laporanByPelangganApi(Request $request)
     {
         $pelanggan = PelangganModel::where('id', $request->userId)->first();
-        $penjualan = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', '!=', 'Cancel')->where('nama_pelanggan', $pelanggan->nama_pelanggan)->with('sparePart')->get();
+        $penjualan = PenjualanModel::whereBetween('tanggal', [$request->from, $request->to])->where('status_service', '!=', 'Cancel')->where('nama_pelanggan', $pelanggan->nama_pelanggan)->with('sparePart')->with('userCreate')->get();
 
 
         return response()->json([

@@ -102,6 +102,7 @@
                                 <th>Status Service</th>
                                 <th>Status Pengambilan</th>
                                 <th>Duraasi Pengambilan</th>
+                                <th>Dibuat Oleh</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -203,6 +204,7 @@
             {data: 'status_service', name: 'status_service'},
             {data: 'status_pengambilan', name: 'status_pengambilan'},
             {data: 'Durasi Pengambilan', name: 'durasi_pengambilan'},
+            {data: 'userCreate', name: 'userCreate'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
   
         ],
