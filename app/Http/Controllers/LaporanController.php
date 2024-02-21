@@ -44,10 +44,10 @@ class LaporanController extends Controller
                         $date = date_create($data->service_selesai);
                         $date2 = date_create($data->tanggal);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -59,15 +59,15 @@ class LaporanController extends Controller
                         $date1 = date_create($date);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date1, $date2);
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                        return $diff->format("%a hari");
                     } else if ($status == 'Sudah Diambil') {
                         $date = date_create($data->pengambilan_barang);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -132,10 +132,10 @@ class LaporanController extends Controller
                         $date = date_create($data->service_selesai);
                         $date2 = date_create($data->tanggal);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -147,15 +147,15 @@ class LaporanController extends Controller
                         $date1 = date_create($date);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date1, $date2);
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                        return $diff->format("%a hari");
                     } else if ($status == 'Sudah Diambil') {
                         $date = date_create($data->pengambilan_barang);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -209,10 +209,10 @@ class LaporanController extends Controller
                         $date = date_create($data->service_selesai);
                         $date2 = date_create($data->tanggal);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -224,15 +224,15 @@ class LaporanController extends Controller
                         $date1 = date_create($date);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date1, $date2);
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                        return $diff->format("%a hari");
                     } else if ($status == 'Sudah Diambil') {
                         $date = date_create($data->pengambilan_barang);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -273,19 +273,9 @@ class LaporanController extends Controller
             $fileName = 'Laporan Service ' . date('d-m-Y', strtotime($request->from)) . ' - ' . date('d-m-Y', strtotime($request->to)) . '.xlsx';
             return (new LaporanExport($request->from, $request->to, $request->status_service, $request->status_barang))->download($fileName);
         }
-        $dataPenjualan = [];
+
         if ($request->ajax()) {
-            foreach ($data as $d) {
-                if ($d->created_by == $request->userId) {
-                    $dataPenjualan[] = $d;
-                }
-                foreach ($d->sparePart as $dataSparePart) {
-                    if ($dataSparePart->created_by == $request->userId) {
-                        $dataPenjualan[] = $d;
-                    }
-                }
-            }
-            return Datatables::of($dataPenjualan)
+            return Datatables::of($data)
                 ->addColumn('Durasi Service', function ($data) {
                     $status = $data->status_service;
                     if ($status == 'Proses') {
@@ -298,10 +288,10 @@ class LaporanController extends Controller
                         $date = date_create($data->service_selesai);
                         $date2 = date_create($data->tanggal);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -313,15 +303,15 @@ class LaporanController extends Controller
                         $date1 = date_create($date);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date1, $date2);
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                        return $diff->format("%a hari");
                     } else if ($status == 'Sudah Diambil') {
                         $date = date_create($data->pengambilan_barang);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -381,10 +371,10 @@ class LaporanController extends Controller
                         $date = date_create($data->service_selesai);
                         $date2 = date_create($data->tanggal);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }
@@ -396,15 +386,15 @@ class LaporanController extends Controller
                         $date1 = date_create($date);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date1, $date2);
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                        return $diff->format("%a hari");
                     } else if ($status == 'Sudah Diambil') {
                         $date = date_create($data->pengambilan_barang);
                         $date2 = date_create($data->service_selesai);
                         $diff = date_diff($date, $date2);
-                        if ($diff->format("%a") == 0) {
-                            return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        if ($diff->format("%a hari") == 0) {
+                            return '1 hari';
                         }
-                        return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return $diff->format("%a hari");
                     } else {
                         return '-';
                     }

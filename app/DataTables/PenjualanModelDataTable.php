@@ -77,15 +77,15 @@ class PenjualanModelDataTable extends DataTable
                     $date1 = date_create($date);
                     $date2 = date_create($data->service_selesai);
                     $diff = date_diff($date1, $date2);
-                    return $diff->format("%a") . ' hari Dari Tanggal Service Selesai';
+                    return $diff->format("%a hari");
                 } else if ($status == 'Sudah Diambil') {
                     $date = date_create($data->pengambilan_barang);
                     $date2 = date_create($data->service_selesai);
                     $diff = date_diff($date, $date2);
                     if ($diff->format("%a") == 0) {
-                        return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return '1 hari';
                     }
-                    return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                    return $diff->format("%a hari");
                 } else {
                     return '-';
                 }

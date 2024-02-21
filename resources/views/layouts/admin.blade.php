@@ -103,7 +103,7 @@
           Toko</a></li>
       <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-user')}}"><i class="bi bi-receipt m-2"></i>
           Laporan by
-          Pengguna</a></li>
+          Sales</a></li>
       <li class="nav-item"><a class="nav-link" href="{{route('laporan-by-pelanggan')}}"><i
             class="bi bi-receipt m-2"></i> Laporan by
           Pelanggan</a></li>

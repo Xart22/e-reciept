@@ -4,13 +4,13 @@
         <div class="col">
             <div class="card mb-4">
                 <div class="card-header" id="titleCard">
-                    Laporan by Pengguna
+                    Laporan by Sales
                 </div>
                 <div class="card-body">
 
                     <div class="mb-3 wraper-search">
                         <div class="form-group">
-                            <label for="searchInput">Cari Pengguna:</label>
+                            <label for="searchInput">Cari Sales:</label>
                             <input type="text" class="form-control" id="searchInput" autocomplete="off">
                             <input type="hidden" id="user">
                         </div>
@@ -34,7 +34,7 @@
                             <input class="form-check-input" type="radio" id="statusSelesai" name="status_service"
                                 value="Selesai">
                             <label class="form-check-label fw-bolder" for="statusSelesai">
-                                Status Selesai
+                                Selesai
                             </label>
                         </div>
 
@@ -42,21 +42,21 @@
                             <input class="form-check-input " type="radio" id="statusProses" name="status_service"
                                 value="Proses">
                             <label class="form-check-label fw-bolder" for="statusProses">
-                                Status Proses
+                                Proses
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input " type="radio" id="statusGagal" name="status_service"
                                 value="Cancel">
                             <label class="form-check-label fw-bolder" for="statusGagal">
-                                Status Gagal
+                                Gagal
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input " type="radio" id="statusServiceAll" name="status_service"
                                 value="all" checked>
                             <label class="form-check-label fw-bolder" for="statusServiceAll">
-                                Semua Status
+                                Semua
                             </label>
                         </div>
                         <h5 class="mt-3">Parameter Status Pengambilan Barang :</h5>
@@ -64,21 +64,21 @@
                             <input class="form-check-input " type="radio" id="statusPengambilanSudah"
                                 name="status_barang" value="Sudah Diambil">
                             <label class="form-check-label fw-bolder" for="statusPengambilanSudah">
-                                Status Pengambilan Sudah diambil
+                                Sudah diambil
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input " type="radio" id="statusPengambilanBelum"
                                 name="status_barang" value="Belum Diambil">
                             <label class="form-check-label fw-bolder" for="statusPengambilanBelum">
-                                Status Pengambilan Belum diambil
+                                Belum diambil
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input " type="radio" id="statusPengambilanAll" name="status_barang"
                                 value="all" checked>
                             <label class="form-check-label fw-bolder" for="statusPengambilanAll">
-                                Semua Status
+                                Semua
                             </label>
                         </div>
                     </div>

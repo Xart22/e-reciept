@@ -12,6 +12,7 @@ use App\Models\SettingModel;
 use App\Models\StockBarangLogModel;
 use App\Models\StokBarangModel;
 use App\Models\TokoModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,7 @@ class TandaTerimaController extends Controller
         $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
         $setting = SettingModel::first();
         $pelanggan = PelangganModel::get();
+        $sales = User::get();
         if ($setting) {
             $tokoDefault = TokoModel::findOrFail($setting->toko_id);
             $toko = TokoModel::where('id', '!=', $setting->toko_id)->get();
@@ -43,7 +45,7 @@ class TandaTerimaController extends Controller
             return redirect()->route('toko.create')->with('warning', 'Silahkan tambahkan toko terlebih dahulu.');
         }
 
-        return view('tanda-terima.create', compact('no_faktur', 'tokoDefault', 'toko', 'pelanggan'));
+        return view('tanda-terima.create', compact('no_faktur', 'tokoDefault', 'toko', 'pelanggan', 'sales'));
     }
 
     /**
@@ -55,7 +57,6 @@ class TandaTerimaController extends Controller
             DB::beginTransaction();
             $data = $request->except(['_token', 'cetak_faktur']);
             $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
-            $data['created_by'] = Auth::user()->id;
             $id = PenjualanModel::create($data)->id;
             LogModel::create([
                 'id_user' => Auth::user()->id,

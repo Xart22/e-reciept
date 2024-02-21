@@ -18,11 +18,28 @@
                         </select>
                     </div>
                 </div>
-                <div class=" row mb-3">
-                    <label for="noFaktur" class="col-sm-2 col-form-label">No. Faktur</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="noFaktur"
-                            value="{{ $no_faktur }}" name="no_faktur">
+                <div class="row">
+                    <div class="col">
+                        <div class="row mb-3">
+                            <label for="noFaktur" class="col-sm-2 col-form-label">No. Faktur</label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="noFaktur"
+                                    value="{{ $no_faktur }}" name="no_faktur">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row mb-3">
+                            <label for="sales" class="col-sm-2 col-form-label">Sales</label>
+                            <div class="col-sm-10">
+                                <select class="form-select" name="created_by" required>
+                                    <option selected value="" disabled>Pilih Sales</option>
+                                    @foreach ($sales as $item)
+                                    <option value="{{ $item->id }}">{{ $item->username }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
