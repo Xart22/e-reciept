@@ -63,9 +63,9 @@ class PenjualanModelDataTable extends DataTable
                     $date2 = date_create($data->tanggal);
                     $diff = date_diff($date, $date2);
                     if ($diff->format("%a") == 0) {
-                        return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return '1 hari';
                     }
-                    return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                    return $diff->format("%a hari");
                 } else {
                     return '-';
                 }

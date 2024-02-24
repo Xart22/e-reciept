@@ -76,13 +76,13 @@
                     <div class="col-md-6">
                         <label for="telponKonsumen" class="form-label">Telpon</label>
                         <input type="tel" class="form-control" id="telponKonsumen" required autocomplete="off"
-                            name="telepon_pelanggan">
+                            name="telepon_pelanggan" value="0">
 
                     </div>
                     <div class="col-md-6">
                         <label for="telponSeluler" class="form-label">Telpon Seluler</label>
                         <input type="tel" class="form-control" id="telponSeluler" required autocomplete="off"
-                            name="telepon_seluler">
+                            name="telepon_seluler" value="0">
 
                     </div>
                 </div>

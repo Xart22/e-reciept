@@ -448,9 +448,13 @@
                         $total = preg_match_all('/\d+/', $data->total_harga, $matches);
                         $total = implode('', $matches[0]);
                         @endphp
-                    </span><span class="text-capitalize">{{
+                    </span>
+                    @if($total != "")
+                    <span class="text-capitalize">{{
                         Riskihajar\Terbilang\Facades\Terbilang::make($total)}}
                         Rupiah</span>
+                    @endif
+                    <span class="text-capitalize">-</span>
                 </div>
             </div>
             <div class="col">

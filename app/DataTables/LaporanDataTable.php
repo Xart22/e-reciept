@@ -37,9 +37,9 @@ class LaporanDataTable extends DataTable
                     $date2 = date_create($data->tanggal);
                     $diff = date_diff($date, $date2);
                     if ($diff->format("%a") == 0) {
-                        return '1 hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                        return '1 hari';
                     }
-                    return $diff->format("%a") . ' hari <br> Service Selesai pada ' . date('d-m-Y', strtotime($data->service_selesai));
+                    return $diff->format("%a hari");
                 } else {
                     return '-';
                 }
@@ -57,9 +57,9 @@ class LaporanDataTable extends DataTable
                     $date2 = date_create($data->service_selesai);
                     $diff = date_diff($date, $date2);
                     if ($diff->format("%a") == 0) {
-                        return '1 hari <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                        return '1 hari';
                     }
-                    return $diff->format("%a") . ' hari Dari Tanggal Service Selesai <br> Barang diambil pada ' . date('d-m-Y', strtotime($data->pengambilan_barang));
+                    return $diff->format("%a hari");
                 } else {
                     return '-';
                 }
