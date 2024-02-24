@@ -90,6 +90,9 @@ class PenjualanModelDataTable extends DataTable
                     return '-';
                 }
             })
+            ->addColumn('Sales', function ($data) {
+                return $data->sales->username;
+            })
             ->editColumn('status_service', function ($data) {
                 if ($data->status_service == 'Proses') {
                     return '<span class="badge bg-primary w-100 fs-6">' . $data->status_service . '</span>';
@@ -144,6 +147,7 @@ class PenjualanModelDataTable extends DataTable
             Column::make('status_service'),
             Column::make('status_pengambilan'),
             Column::make('Durasi Pengambilan'),
+            Column::make('Sales'),
             Column::make('action')
                 ->exportable(false)
                 ->printable(false)

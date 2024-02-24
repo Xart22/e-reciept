@@ -99,9 +99,12 @@
                             @else
                             <p>Status : <strong>{{$data->status_service}}</strong></p>
                             @endif
+                            <p>Sales : <strong>{{$data->sales->username}}</strong></p>
                             <p>Create By : <strong>{{$data->userCreate->username}}</strong></p>
                             <p>Update By : <strong>{{$data->userUpdate->username}}</strong></p>
                             <p>Update At : <strong>{{$data->updated_at}}</strong></p>
+
+
 
 
                             <div class="row mb-3">
