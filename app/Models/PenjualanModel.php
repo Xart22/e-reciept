@@ -26,6 +26,12 @@ class PenjualanModel extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function sales()
+    {
+        return $this->belongsTo(User::class, 'sales_id');
+    }
+
+
     public function sparePart()
     {
         return $this->hasMany(PenjualanSparePartModel::class, 'no_faktur', 'no_faktur')->with('userCreate');

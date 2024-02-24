@@ -32,7 +32,7 @@
                         <div class="row mb-3">
                             <label for="sales" class="col-sm-2 col-form-label">Sales</label>
                             <div class="col-sm-10">
-                                <select class="form-select" name="created_by" required>
+                                <select class="form-select" name="sales_id" required>
                                     <option selected value="" disabled>Pilih Sales</option>
                                     @foreach ($sales as $item)
                                     <option value="{{ $item->id }}">{{ $item->username }}</option>

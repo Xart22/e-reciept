@@ -103,6 +103,7 @@
                                 <th>Status Pengambilan</th>
                                 <th>Duraasi Pengambilan</th>
                                 <th>Dibuat Oleh</th>
+                                <th>Sales</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -201,6 +202,7 @@
             {data: 'status_pengambilan', name: 'status_pengambilan'},
             {data: 'Durasi Pengambilan', name: 'durasi_pengambilan'},
             {data: 'userCreate', name: 'userCreate'},
+            {data:'sales', name:'sales'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
   
         ],

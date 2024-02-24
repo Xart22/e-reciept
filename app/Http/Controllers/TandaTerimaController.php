@@ -57,6 +57,7 @@ class TandaTerimaController extends Controller
             DB::beginTransaction();
             $data = $request->except(['_token', 'cetak_faktur']);
             $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
+            $data['created_by'] = Auth::user()->id;
             $id = PenjualanModel::create($data)->id;
             LogModel::create([
                 'id_user' => Auth::user()->id,

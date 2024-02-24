@@ -33,6 +33,7 @@
                                     <th scope="col">Status Service</th>
                                     <th scope="col">Status Penganbilan</th>
                                     <th>Dibuat Oleh</th>
+                                    <th>Sales</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
