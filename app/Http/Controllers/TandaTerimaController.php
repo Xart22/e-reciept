@@ -55,7 +55,10 @@ class TandaTerimaController extends Controller
     {
         try {
             DB::beginTransaction();
+            $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->count();
+            $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
             $data = $request->except(['_token', 'cetak_faktur']);
+            $data['no_faktur'] = $no_faktur;
             $data['tanggal'] = date('Y-m-d', strtotime($data['tanggal']));
             $data['created_by'] = Auth::user()->id;
             $id = PenjualanModel::create($data)->id;
@@ -83,7 +86,6 @@ class TandaTerimaController extends Controller
             return redirect()->route('tanda-terima.index')->with('success', 'Data berhasil disimpan.');
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             return redirect()->route('tanda-terima.index')->with('error', 'Data gagal disimpan.');
         }
     }
