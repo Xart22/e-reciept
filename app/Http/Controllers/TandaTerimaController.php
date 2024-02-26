@@ -33,7 +33,8 @@ class TandaTerimaController extends Controller
      */
     public function create()
     {
-        $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->count();
+        $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->orderBy('id', 'desc')->first();
+        $no = $no ? explode('-', $no->no_faktur)[1] : 0;
         $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
         $setting = SettingModel::first();
         $pelanggan = PelangganModel::get();
@@ -55,7 +56,8 @@ class TandaTerimaController extends Controller
     {
         try {
             DB::beginTransaction();
-            $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->count();
+            $no = PenjualanModel::where('tanggal', 'like', '%' . date('Y-m') . '%')->orderBy('id', 'desc')->first();
+            $no = $no ? explode('-', $no->no_faktur)[1] : 0;
             $no_faktur = 'S' . date('my') . '-' . str_pad($no + 1, 3, '0', STR_PAD_LEFT);
             $data = $request->except(['_token', 'cetak_faktur']);
             $data['no_faktur'] = $no_faktur;
